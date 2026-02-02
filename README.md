@@ -13,7 +13,7 @@
 
 ## ⚒️自定义QuickShare前端界面
 
-- [API文档](https://github.com/Mrkinte/QuickShare/blob/main/QuickShare/Docs/API%E6%96%87%E6%A1%A3.md)
+- [API文档](https://github.com/Mrkinte/QuickShare/blob/main/Docs/API%E6%96%87%E6%A1%A3.md)
 
 - [QuickShare-WebUI](https://github.com/Mrkinte/QuickShare-WebUI)
 
