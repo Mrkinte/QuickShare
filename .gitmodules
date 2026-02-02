@@ -1,0 +1,3 @@
+[submodule "QuickShare-WebUI"]
+	path = QuickShare-WebUI
+	url = https://github.com/Mrkinte/QuickShare-WebUI
