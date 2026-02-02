@@ -1,0 +1,349 @@
+﻿<Page
+    x:Class="QuickShare.Views.Pages.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="clr-namespace:QuickShare.Helpers"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:QuickShare.Views.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sc="clr-namespace:QuickShare.Controls"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="SettingsPage"
+    d:DataContext="{d:DesignInstance local:SettingsPage,
+                                     IsDesignTimeCreatable=False}"
+    d:DesignHeight="1800"
+    d:DesignWidth="800"
+    ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
+    ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <helpers:InvertedBooleanToVisibilityConverter x:Key="InvertedBooleanToVisibilityConverter" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Page.Resources>
+
+    <StackPanel Margin="0,0,0,24">
+        <!--  General Settings  -->
+        <ui:Card>
+            <StackPanel>
+                <TextBlock
+                    Margin="12,0,0,0"
+                    FontSize="20"
+                    Text="{DynamicResource Settings_Text_General}" />
+                <sc:SettingCard
+                    Title="{DynamicResource Settings_Text_AutoStartup}"
+                    Description="{DynamicResource Settings_Text_AutoStartupDescription}"
+                    Icon="{ui:SymbolIcon Symbol=Laptop24}">
+                    <ui:ToggleSwitch Command="{Binding AutoStartupCommand}" IsChecked="{Binding AutoStartup, Mode=TwoWay}" />
+                </sc:SettingCard>
+                <sc:SettingCard
+                    Title="{DynamicResource Settings_Text_AutoHideWindow}"
+                    Description="{DynamicResource Settings_Text_AutoHideWindowDescription}"
+                    Icon="{ui:SymbolIcon Symbol=TrayItemAdd24}">
+                    <ui:ToggleSwitch Command="{Binding AutoHideWindowCommand}" IsChecked="{Binding AutoHideWindow}" />
+                </sc:SettingCard>
+                <sc:SettingCard
+                    Title="{DynamicResource Settings_Text_Theme}"
+                    Description="{DynamicResource Settings_Text_ThemeDescription}"
+                    Icon="{ui:SymbolIcon Symbol=PaintBrush24}">
+                    <ComboBox
+                        MinWidth="200"
+                        ItemsSource="{Binding ThemeItems}"
+                        SelectedItem="{Binding SelectedTheme}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding ChangeThemeCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
+                </sc:SettingCard>
+                <sc:SettingCard
+                    Title="{DynamicResource Settings_Text_Language}"
+                    Description="{DynamicResource Settings_Text_LanguageDescription}"
+                    Icon="{ui:SymbolIcon Symbol=LocalLanguage24}">
+                    <ComboBox
+                        MinWidth="200"
+                        ItemsSource="{Binding LanguageItems}"
+                        SelectedItem="{Binding SelectedLanguage}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding ChangeLanguageCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
+                </sc:SettingCard>
+            </StackPanel>
+        </ui:Card>
+
+        <!--  Network Settings  -->
+        <ui:Card Margin="0,12,0,0">
+            <StackPanel>
+                <TextBlock
+                    Margin="12,0,0,0"
+                    FontSize="20"
+                    Text="{DynamicResource Settings_Text_Network}" />
+                <sc:SettingCard
+                    Title="{DynamicResource Settings_Text_Server}"
+                    Description="{DynamicResource Settings_Text_ServerDescription}"
+                    Icon="{ui:SymbolIcon Symbol=Server24}">
+                    <ui:Card
+                        Width="100"
+                        Padding="0,8,0,8"
+                        Cursor="Arrow">
+                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                            <ui:Button
+                                Padding="8,6,8,6"
+                                Appearance="Success"
+                                BorderThickness="0"
+                                Command="{Binding StartWebServerCommand}"
+                                Icon="{ui:SymbolIcon Symbol=Play24}"
+                                IsEnabled="{Binding WebIsStopped}" />
+                            <ui:Button
+                                Margin="12,0,0,0"
+                                Padding="8,6,8,6"
+                                Appearance="Danger"
+                                BorderThickness="0"
+                                Command="{Binding StopWebServerCommand}"
+                                Icon="{ui:SymbolIcon Symbol=Stop24}"
+                                IsEnabled="{Binding WebIsRunning}" />
+                        </StackPanel>
+                    </ui:Card>
+                </sc:SettingCard>
+                <sc:SettingCard
+                    Title="{DynamicResource Settings_Text_Port}"
+                    Description="{DynamicResource Settings_Text_PortDescription}"
+                    Icon="{ui:SymbolIcon Symbol=CalendarShield24}">
+                    <StackPanel Orientation="Horizontal">
+                        <ui:Button
+                            Padding="8"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Command="{Binding ModifyWebPortCommand}"
+                            Icon="{ui:SymbolIcon Symbol=Checkmark24}"
+                            Visibility="{Binding PortConfirmBtnEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <ui:NumberBox
+                            MinWidth="100"
+                            Margin="4,0,0,0"
+                            ClearButtonEnabled="False"
+                            Maximum="65535"
+                            Minimum="1"
+                            SpinButtonPlacementMode="Hidden"
+                            Text="{Binding WebPort, Mode=TwoWay}"
+                            TextAlignment="Center"
+                            Value="{Binding WebPort, Mode=TwoWay}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="TextChanged">
+                                    <i:InvokeCommandAction Command="{Binding WebPortChangedCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ui:NumberBox>
+                    </StackPanel>
+                </sc:SettingCard>
+                <sc:SettingCard
+                    Title="{DynamicResource Settings_Text_DefaultNetwork}"
+                    Description="{DynamicResource Settings_Text_DefaultNetworkDescription}"
+                    Icon="{ui:SymbolIcon Symbol=NetworkAdapter16}">
+                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                        <ui:Button
+                            Margin="0,0,8,0"
+                            Padding="8"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Command="{Binding RefreshNetworkCommand}"
+                            Icon="{ui:SymbolIcon Symbol=ArrowSync24}" />
+                        <ComboBox
+                            MinWidth="200"
+                            DisplayMemberPath="DisplayString"
+                            ItemsSource="{Binding ActivedNetworks}"
+                            SelectedItem="{Binding SelectedNetwork}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding ChangeNetworkCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ComboBox>
+                    </StackPanel>
+                </sc:SettingCard>
+            </StackPanel>
+        </ui:Card>
+
+        <!--  Transmit Settings  -->
+        <ui:Card Margin="0,12,0,0">
+            <StackPanel>
+                <TextBlock
+                    Margin="12,0,0,0"
+                    FontSize="20"
+                    Text="{DynamicResource Settings_Text_Transmit}" />
+                <sc:SettingCard
+                    Title="{DynamicResource Settings_Text_Password}"
+                    Description="{DynamicResource Settings_Text_PasswordDescription}"
+                    Icon="{ui:SymbolIcon Symbol=Password24}">
+                    <StackPanel Orientation="Horizontal">
+                        <ui:Button
+                            Padding="8"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Command="{Binding ResetPasswordCommand}"
+                            Icon="{ui:SymbolIcon Symbol=Checkmark24}"
+                            Visibility="{Binding PasswordConfirmBtnEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <ui:TextBox
+                            MinWidth="200"
+                            Margin="4,0,0,0"
+                            MaxLength="16"
+                            MaxLines="1"
+                            Text="{Binding Password}"
+                            ToolTip="{DynamicResource Settings_ToolTip_Password}"
+                            ToolTipService.InitialShowDelay="0">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="TextChanged">
+                                    <i:InvokeCommandAction Command="{Binding PasswordChangedCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ui:TextBox>
+                    </StackPanel>
+                </sc:SettingCard>
+                <sc:SettingCard
+                    Title="{DynamicResource Settings_Text_MaxFileSize}"
+                    Description="{DynamicResource Settings_Text_MaxFileSizeDescription}"
+                    Icon="{ui:SymbolIcon Symbol=Database24}">
+                    <StackPanel Orientation="Horizontal">
+                        <ui:Button
+                            Padding="8"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Command="{Binding ModifyMaxFileSizeCommand}"
+                            Icon="{ui:SymbolIcon Symbol=Checkmark24}"
+                            Visibility="{Binding MaxFileSizeConfirmBtnEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <ui:NumberBox
+                            MinWidth="100"
+                            Margin="4,0,0,0"
+                            ClearButtonEnabled="False"
+                            Cursor="Arrow"
+                            Maximum="65535"
+                            Minimum="1"
+                            SpinButtonPlacementMode="Hidden"
+                            Text="{Binding MaxFileSize, Mode=TwoWay}"
+                            TextAlignment="Center"
+                            Value="{Binding MaxFileSize, Mode=TwoWay}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="TextChanged">
+                                    <i:InvokeCommandAction Command="{Binding MaxFileSizeChangedCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ui:NumberBox>
+                    </StackPanel>
+                </sc:SettingCard>
+                <sc:SettingCard
+                    Title="{DynamicResource Settings_Text_SavePath}"
+                    Description="{Binding FileSavePath}"
+                    Icon="{ui:SymbolIcon Symbol=Folder24}">
+                    <ui:Button
+                        MinWidth="100"
+                        Appearance="Primary"
+                        Command="{Binding SelectFileSavePathCommand}"
+                        Content="{DynamicResource Settings_Button_SelectSavePath}" />
+                </sc:SettingCard>
+
+            </StackPanel>
+        </ui:Card>
+
+        <!--  Other Settings  -->
+        <ui:Card Margin="0,12,0,0">
+            <StackPanel>
+                <TextBlock
+                    Margin="12,0,0,0"
+                    FontSize="20"
+                    Text="{DynamicResource Settings_Text_Other}" />
+                <sc:SettingCard
+                    Title="{DynamicResource Settings_Text_ViewLog}"
+                    Description="{DynamicResource Settings_Text_ViewLogDescription}"
+                    Icon="{ui:SymbolIcon Symbol=DocumentTextExtract24}">
+                    <ui:Button
+                        Appearance="Primary"
+                        Command="{Binding OpenLogFolderCommand}"
+                        Content="{DynamicResource Settings_Button_Open}" />
+                </sc:SettingCard>
+
+                <!--  Restore default settings  -->
+                <ui:CardControl
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Icon="{ui:SymbolIcon Symbol=Delete24}">
+                    <ui:CardControl.Header>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <ui:TextBlock
+                                Grid.Row="0"
+                                Margin="0,0,0,5"
+                                FontSize="16"
+                                FontTypography="Body"
+                                Text="{DynamicResource Settings_Text_DefaultSettings}" />
+                            <ui:TextBlock
+                                Grid.Row="1"
+                                FontSize="12"
+                                Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
+                                Text="{DynamicResource Settings_Text_DefaultSettingsDescription}" />
+                        </Grid>
+                    </ui:CardControl.Header>
+                    <ui:Button
+                        Name="RestoreConfigBtn"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Appearance="Primary"
+                        Click="RestoreConfigBtn_Click"
+                        Content="{DynamicResource Settings_Button_Restory}" />
+                </ui:CardControl>
+                <Popup
+                    x:Name="RestoreConfigPopup"
+                    Height="60"
+                    AllowsTransparency="True"
+                    Placement="Bottom"
+                    PlacementTarget="{Binding ElementName=RestoreConfigBtn}"
+                    StaysOpen="False"
+                    VerticalOffset="3">
+                    <Border
+                        Background="{DynamicResource ApplicationBackgroundBrush}"
+                        BorderBrush="LightGray"
+                        BorderThickness="1"
+                        CornerRadius="10">
+                        <StackPanel Orientation="Horizontal">
+                            <ui:TextBlock
+                                Margin="10"
+                                VerticalAlignment="Center"
+                                Text="{DynamicResource Settings_Message_ConfirmRestoration}" />
+                            <ui:Button
+                                Margin="0,0,10,0"
+                                Appearance="Danger"
+                                Click="RestoreConfigBtn_Click"
+                                Command="{Binding RestoreDefaultCommand}"
+                                Content="{DynamicResource Settings_Button_Confirm}" />
+                        </StackPanel>
+                    </Border>
+                </Popup>
+
+                <sc:SettingCard
+                    Title="{DynamicResource Settings_Text_Upload}"
+                    Description="{Binding AppVersion}"
+                    Icon="{ui:SymbolIcon Symbol=GlobeSurface24}">
+                    <ui:Button
+                        Appearance="Primary"
+                        Command="{Binding CheckUpdateCommand}"
+                        Content="{DynamicResource Settings_Text_UploadButton}" />
+                </sc:SettingCard>
+                <sc:SettingCard
+                    Title="{DynamicResource Settings_Text_Issues}"
+                    Description="{DynamicResource Settings_Text_IssuesDescription}"
+                    Icon="{ui:SymbolIcon Symbol=Bug24}">
+                    <ui:HyperlinkButton
+                        Appearance="Primary"
+                        Content="{DynamicResource Settings_Button_Issues}"
+                        NavigateUri="https://github.com/Mrkinte/QuickShare/issues" />
+                </sc:SettingCard>
+            </StackPanel>
+        </ui:Card>
+    </StackPanel>
+</Page>

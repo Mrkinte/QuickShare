@@ -1,0 +1,165 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=netstandard">
+
+    <!--  General  -->
+    <system:String x:Key="AppName">Quick Share</system:String>
+    <system:String x:Key="Tip">Tip</system:String>
+    <system:String x:Key="Warrning">Warning</system:String>
+    <system:String x:Key="Error">Error</system:String>
+    <system:String x:Key="Light">Light</system:String>
+    <system:String x:Key="Dark">Dark</system:String>
+
+    <!--  Language  -->
+    <system:String x:Key="zh-CN">简体中文</system:String>
+    <system:String x:Key="en-US">English</system:String>
+
+    <!--  Tray Menu  -->
+    <system:String x:Key="Tray_Menu_ShowWindow">Show Window</system:String>
+    <system:String x:Key="Tray_Menu_ExitApp">Exit</system:String>
+
+    <!--  MainWindow  -->
+    <system:String x:Key="MainWindow_Text_OnlineCount">Connections:</system:String>
+    <system:String x:Key="MainWindow_ToolTip_NoConnections">No connections</system:String>
+    <system:String x:Key="MainWindow_Text_Online">Server (Online)</system:String>
+    <system:String x:Key="MainWindow_Text_Offline">Server (Offline)</system:String>
+    <system:String x:Key="MainWindow_Message_AppIsRunning">Another instance is already running!</system:String>
+    <system:String x:Key="MainWindow_Message_ServerStartupFailed">File server startup failed. The port is already in use. Please change the port.</system:String>
+    <system:String x:Key="MainWindow_Message_Minimal">The application has been minimized to the system tray. Click the icon to restore the main window.</system:String>
+
+    <!--  Transmit Page  -->
+    <system:String x:Key="Transmit_Text_Title">Transfer</system:String>
+    <system:String x:Key="Transmit_Text_TopTip">Scan the QR code below to download/upload files</system:String>
+    <system:String x:Key="Transmit_Text_SelectIp">Select direct connection IP</system:String>
+    <system:String x:Key="Transmit_Text_EnableMdns">Connect via mDNS</system:String>
+    <system:String x:Key="Transmit_ToolTip_EnableMdns">When enabled, access the file server via hostname.local. If mDNS connection fails, try direct IP connection.</system:String>
+    <system:String x:Key="Transmit_ToolTip_OpenUploadDir">Open upload directory</system:String>
+    <system:String x:Key="Transmit_Text_BottomTip">Ensure your phone/tablet is on the same local network as your computer</system:String>
+    <system:String x:Key="Transmit_Message_CopyUrlSuccess">Copied successfully:</system:String>
+    <system:String x:Key="Transmit_Message_CreateUploadFolderFailed">Failed to create upload folder:</system:String>
+
+    <!--  Share Page  -->
+    <system:String x:Key="Share_Text_Title">Share</system:String>
+    <system:String x:Key="Share_Text_SelectFile">Select files to share</system:String>
+    <system:String x:Key="Share_Button_SelectFile">Select</system:String>
+    <system:String x:Key="Share_Text_FileSelectorTitle">Select Files</system:String>
+    <system:String x:Key="Share_DataGrid_Description">Description</system:String>
+    <system:String x:Key="Share_DataGrid_CreateTime">Created</system:String>
+    <system:String x:Key="Share_DataGrid_FileCount">Files</system:String>
+    <system:String x:Key="Share_DataGrid_Operation">Actions</system:String>
+    <system:String x:Key="Share_Button_Edit">Edit</system:String>
+    <system:String x:Key="Share_Button_Share">Share</system:String>
+    <system:String x:Key="Share_Button_Delete">Delete</system:String>
+
+    <!--  Diagnose Page  -->
+    <system:String x:Key="Diagnose_Text_Title">Diagnostics</system:String>
+    <system:String x:Key="Diagnose_Text_ServerStatus">Server Status</system:String>
+    <system:String x:Key="Diagnose_Text_FirewallStatus">Firewall Status</system:String>
+    <system:String x:Key="Diagnose_Button_RepaireFirewall">Allow through Firewall</system:String>
+    <system:String x:Key="Diagnose_Button_Diagnose">Run Diagnostics</system:String>
+    <system:String x:Key="Diagnose_Text_WaitDiagnose">Pending</system:String>
+    <system:String x:Key="Diagnose_Text_Normal">Normal</system:String>
+    <system:String x:Key="Diagnose_Text_Abnormal">Abnormal</system:String>
+    <system:String x:Key="Diagnose_Text_ServerDetail1">Server not started. Port is occupied.</system:String>
+    <system:String x:Key="Diagnose_Text_ServerDetail2">Server not started. Please try starting the server in Settings.</system:String>
+    <system:String x:Key="Diagnose_Text_ServerDetail3">Server is running normally.</system:String>
+    <system:String x:Key="Diagnose_Text_FirewallDetail1">Firewall configuration abnormal. Not allowed. Please allow manually or try automatic repair.</system:String>
+    <system:String x:Key="Diagnose_Text_FirewallDetail2">Firewall configuration normal. Allowed.</system:String>
+
+    <!--  Settings Page  -->
+    <system:String x:Key="Settings_Text_Title">Settings</system:String>
+    <!--  General Settings  -->
+    <system:String x:Key="Settings_Text_General">General</system:String>
+    <system:String x:Key="Settings_Text_AutoStartup">Auto-start on boot</system:String>
+    <system:String x:Key="Settings_Text_AutoStartupDescription">Automatically launch the application and file server on system startup</system:String>
+    <system:String x:Key="Settings_Text_AutoHideWindow">Auto-minimize window</system:String>
+    <system:String x:Key="Settings_Text_AutoHideWindowDescription">Automatically minimize the window to the system tray when launching the application</system:String>
+    <system:String x:Key="Settings_Text_Theme">Theme</system:String>
+    <system:String x:Key="Settings_Text_ThemeDescription">Adjust the application appearance</system:String>
+    <system:String x:Key="Settings_Text_Language">Language</system:String>
+    <system:String x:Key="Settings_Text_LanguageDescription">Select the application language</system:String>
+    <system:String x:Key="Settings_Message_LanguageChanged">Language changed. Restart the application to apply changes.</system:String>
+    <!--  Network Settings  -->
+    <system:String x:Key="Settings_Text_Network">Network</system:String>
+    <system:String x:Key="Settings_Text_Server">Server</system:String>
+    <system:String x:Key="Settings_Text_ServerDescription">Start/stop the file server</system:String>
+    <system:String x:Key="Settings_Text_Port">Port</system:String>
+    <system:String x:Key="Settings_Text_PortDescription">Server access port</system:String>
+    <system:String x:Key="Settings_Text_DefaultNetwork">Default Network Adapter</system:String>
+    <system:String x:Key="Settings_Text_DefaultNetworkDescription">Network adapter used by default when generating links</system:String>
+    <system:String x:Key="Settings_Text_Https">HTTPS</system:String>
+    <system:String x:Key="Settings_Text_HttpsDescription">Encrypt transferred content via HTTPS</system:String>
+    <!--  Transmit Settings  -->
+    <system:String x:Key="Settings_Text_Transmit">Transfer</system:String>
+    <system:String x:Key="Settings_Text_Password">Login Password</system:String>
+    <system:String x:Key="Settings_Text_PasswordDescription">Password required to access the upload/download page</system:String>
+    <system:String x:Key="Settings_ToolTip_Password">Supports letters and numbers, 4-16 characters.</system:String>
+    <system:String x:Key="Settings_Text_MaxFileSize">Upload Size Limit</system:String>
+    <system:String x:Key="Settings_Text_MaxFileSizeDescription">Maximum total size allowed for uploads (MB)</system:String>
+    <system:String x:Key="Settings_Text_SavePath">Upload Save Path</system:String>
+    <system:String x:Key="Settings_Button_SelectSavePath">Select Folder</system:String>
+    <!--  Other Settings  -->
+    <system:String x:Key="Settings_Text_Other">Other</system:String>
+    <system:String x:Key="Settings_Text_ViewLog">View Logs</system:String>
+    <system:String x:Key="Settings_Text_ViewLogDescription">View application runtime logs</system:String>
+    <system:String x:Key="Settings_Button_Open">Open</system:String>
+    <system:String x:Key="Settings_Text_DefaultSettings">Restore Defaults</system:String>
+    <system:String x:Key="Settings_Text_DefaultSettingsDescription">Restore all settings to default values and restart the application</system:String>
+    <system:String x:Key="Settings_Button_Restory">Restore</system:String>
+    <system:String x:Key="Settings_Message_ConfirmRestoration">The application will restart. Are you sure you want to restore defaults?</system:String>
+    <system:String x:Key="Settings_Button_Confirm">Confirm</system:String>
+    <system:String x:Key="Settings_Text_Upload">Check for Updates</system:String>
+    <system:String x:Key="Settings_Text_UploadButton">Check for Updates</system:String>
+    <system:String x:Key="Settings_Text_Issues">Report Issues</system:String>
+    <system:String x:Key="Settings_Text_IssuesDescription">Report bugs on GitHub</system:String>
+    <system:String x:Key="Settings_Button_Issues">Report Issue</system:String>
+    <!--  Message  -->
+    <system:String x:Key="Settings_Message_SetAutoStartupFailed">Failed to set auto-start on boot:</system:String>
+    <system:String x:Key="Settings_Message_PortInUse">Port is already in use. Please select a different port.</system:String>
+    <system:String x:Key="Settings_Message_PortModifySuccessfully">Port changed successfully. Restart the server to apply changes.</system:String>
+    <system:String x:Key="Settings_Message_PasswordInvalid1">Password contains invalid characters. Only [a-z][A-Z][0-9] are allowed.</system:String>
+    <system:String x:Key="Settings_Message_PasswordInvalid2">Password length requirement not met.</system:String>
+    <system:String x:Key="Settings_Message_ServerRunning">Server started successfully.</system:String>
+    <system:String x:Key="Settings_Message_ServerStopped">Server stopped successfully.</system:String>
+
+    <!--  Share Window  -->
+    <system:String x:Key="ShareWindow_Text_Title">Share</system:String>
+    <system:String x:Key="ShareWindow_Text_TopTip">Scan the QR code below to download files</system:String>
+    <system:String x:Key="ShareWindow_Text_SelectIp">Select direct connection IP</system:String>
+    <system:String x:Key="ShareWindow_Text_EnableMdns">Connect via mDNS</system:String>
+    <system:String x:Key="ShareWindow_ToolTip_EnableMdns">When enabled, access the file server via hostname.local. If mDNS connection fails, try direct IP connection.</system:String>
+    <system:String x:Key="ShareWindow_Text_BottomTip">Ensure your phone/tablet is on the same local network as your computer</system:String>
+    <system:String x:Key="ShareWindow_Message_CopyUrlSuccess">Copied successfully:</system:String>
+    <system:String x:Key="ShareWindow_Text_ShareEdit">Edit Share</system:String>
+
+    <!--  Share Edit Window  -->
+    <system:String x:Key="ShareEdit_Text_Title">Edit Share</system:String>
+    <system:String x:Key="ShareEdit_Text_Description">Description</system:String>
+    <system:String x:Key="ShareEdit_Text_VerifyCode">Access Code</system:String>
+    <system:String x:Key="ShareEdit_Button_AddFiles">Add Files</system:String>
+    <system:String x:Key="ShareEdit_Button_ConfirmModify">Confirm Changes</system:String>
+    <system:String x:Key="ShareEdit_DataGrid_File">File</system:String>
+    <system:String x:Key="ShareEdit_DataGrid_DownloadCount">Downloads</system:String>
+    <system:String x:Key="ShareEdit_DataGrid_Status">Status</system:String>
+    <system:String x:Key="ShareEdit_Text_ValidStatus">Valid</system:String>
+    <system:String x:Key="ShareEdit_Text_InvalidStatus">File not found</system:String>
+    <system:String x:Key="ShareEdit_DataGrid_Operation">Actions</system:String>
+    <system:String x:Key="ShareEdit_Button_Delete">Delete</system:String>
+    <system:String x:Key="ShareEdit_Text_FileSelectorTitle">Select Files</system:String>
+    <system:String x:Key="ShareEdit_Message_ModifyFailed1">Access code contains invalid characters. Only [a-z][A-Z][0-9] are allowed.</system:String>
+    <system:String x:Key="ShareEdit_Message_ModifyFailed2">At least one file must be included in the share.</system:String>
+    <system:String x:Key="ShareEdit_Message_ModifyFailed3">Share information updated successfully.</system:String>
+
+    <!--  Update Window  -->
+    <system:String x:Key="UpdateWindow_Text_Title">Application Update</system:String>
+    <system:String x:Key="UpdateWindow_Text_NewVersion">New version available:</system:String>
+    <system:String x:Key="UpdateWindow_Button_GithubDownload">Download Update (GitHub)</system:String>
+    <system:String x:Key="UpdateWindow_Button_SourceForgeDownload">Download Update (SourceForge)</system:String>
+    <system:String x:Key="UpdateWindow_Button_IgnoreUpdate">Ignore Update</system:String>
+    <system:String x:Key="UpdateWindow_Message_StartCheck">Checking for new version...</system:String>
+    <system:String x:Key="UpdateWindow_Message_Busy">Checking for updates. Please wait and do not repeat the request.</system:String>
+    <system:String x:Key="UpdateWindow_Message_Newest">You are running the latest version.</system:String>
+    <system:String x:Key="UpdateWindow_Message_CheckUpdateFailed">Failed to check for updates.</system:String>
+    <system:String x:Key="UpdateWindow_Message_XmlParsingFailed">Failed to parse update information.</system:String>
+</ResourceDictionary>

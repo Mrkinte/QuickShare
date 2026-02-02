@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <version>1.0.0</version>
+  <download_link>https://github.com/Mrkinte/QuickShare/releases/download/1.0.0/QuickShare_1.0.0_x64_setup.exe</download_link>
+  <download_link2>https://sourceforge.net/projects/quick-share/files/1.0.0/QuickShare_1.0.0_x64_setup.exe/download</download_link2>
+  <update_contents><![CDATA[<FlowDocument FontFamily="Microsoft YaHei UI" FontSize="14" LineHeight="14" PagePadding="5,0,5,0" AllowDrop="False" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"><Paragraph LineHeight="9.333333333333334"><Run FontWeight="Bold" FontSize="16" Background="#00FFFFFF" xml:lang="zh-cn" NumberSubstitution.CultureSource="User">【特点】</Run></Paragraph><Paragraph LineHeight="8.166666666666668"><Run Background="#00FFFFFF" xml:lang="zh-cn" NumberSubstitution.CultureSource="User">1. 隐私保护：完全本地部署，数据不经过第三方服务器。</Run></Paragraph><Paragraph LineHeight="8.166666666666668"><Run Background="#00FFFFFF" xml:lang="zh-cn" NumberSubstitution.CultureSource="User">2. 简单易用：直观的用户界面，无需复杂配置。</Run></Paragraph><Paragraph LineHeight="8.166666666666668"><Run Background="#00FFFFFF" xml:lang="zh-cn" NumberSubstitution.CultureSource="User">3. 跨设备支持：依托浏览器，实现PC、手机、平板等多种设备间的文件传输。</Run></Paragraph><Paragraph LineHeight="8.166666666666668"><Run Background="#00FFFFFF" xml:lang="zh-cn" NumberSubstitution.CultureSource="User">4. 安全可靠：使用Https加密传输。</Run></Paragraph></FlowDocument>]]></update_contents>
+</root>

@@ -1,0 +1,96 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
+		<ApplicationIcon>favicon.ico</ApplicationIcon>
+		<UseWPF>true</UseWPF>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Version>1.0.0</Version>
+		<AssemblyVersion>$(Version)</AssemblyVersion>
+		<FileVersion>$(Version)</FileVersion>
+		<InterceptorsNamespaces>$(InterceptorsNamespaces);Microsoft.Extensions.Configuration.Binder.SourceGeneration</InterceptorsNamespaces>
+		<Platforms>AnyCPU;x64</Platforms>
+		<UserSecretsId>a0fc3ce8-ccfe-447f-af2d-badb9881309a</UserSecretsId>
+		<AssemblyName>Quick Share</AssemblyName>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="Assets\wwwroot\**">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<TargetPath>wwwroot\%(RecursiveDir)%(Filename)%(Extension)</TargetPath>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Remove="QuickShare-WebUI\**" />
+	  <EmbeddedResource Remove="QuickShare-WebUI\**" />
+	  <None Remove="QuickShare-WebUI\**" />
+	  <Page Remove="QuickShare-WebUI\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="2.0.1" />
+		<PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.2" />
+		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
+		<PackageReference Include="QRCoder" Version="1.7.0" />
+		<PackageReference Include="Serilog" Version="4.3.0" />
+		<PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
+		<PackageReference Include="Serilog.Sinks.Console" Version="6.1.1" />
+		<PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
+		<PackageReference Include="WPF-UI" Version="4.2.0" />
+		<PackageReference Include="WPF-UI.DependencyInjection" Version="4.2.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.2" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0 " />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove="Assets\add-firewall-rule.bat" />
+		<None Remove="Assets\app-icon-512.png" />
+		<None Remove="Assets\tray-icon.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="favicon.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Resource Include="Assets\app-icon-512.png" />
+		<Resource Include="Assets\tray-icon.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Assets\wwwroot\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Controls\DiagnoseCard.xaml.cs">
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="Views\Pages\DiagnosePage.xaml.cs">
+	    <SubType>Code</SubType>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="add-firewall-rule.bat">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<COMReference Include="IWshRuntimeLibrary">
+			<Guid>F935DC20-1CF0-11D0-ADB9-00C04FD58A0B</Guid>
+			<VersionMajor>1</VersionMajor>
+			<VersionMinor>0</VersionMinor>
+			<WrapperTool>tlbimp</WrapperTool>
+		</COMReference>
+	</ItemGroup>
+
+</Project>
