@@ -35,7 +35,16 @@ namespace QuickShare.Services
         {
             var viewModel = new ShareEditWindowViewModel(share, sqliteService,
                 snackbarService, translationService);
-            viewModel.ShareEditDone += (s, e) => ShareEditDone?.Invoke(this, EventArgs.Empty);
+
+            // Notify SharePage to refresh
+            EventHandler? shareEditDoneHandler = null;
+            shareEditDoneHandler = (s, e) =>
+            {
+                ShareEditDone?.Invoke(this, EventArgs.Empty);
+                viewModel.ShareEditDone -= shareEditDoneHandler;
+                shareEditDoneHandler = null;
+            };
+            viewModel.ShareEditDone += shareEditDoneHandler;
 
             var shareEditWindow = new ShareEditWindow(viewModel);
             shareEditWindow.ShowDialog();

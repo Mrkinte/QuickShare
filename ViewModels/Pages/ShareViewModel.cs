@@ -13,6 +13,7 @@ namespace QuickShare.ViewModels.Pages
             TranslationService trService) : ObservableObject, INavigationAware
     {
         private bool _isInitialized = false;
+        private EventHandler? _shareEditDoneHandler;
 
         [ObservableProperty]
         private ObservableCollection<ShareModel>? _shareHistories;
@@ -37,10 +38,19 @@ namespace QuickShare.ViewModels.Pages
         [RelayCommand]
         private void OnOpenEditDialog(ShareModel share)
         {
-            shareEditWindowManage.ShareEditDone += (s, e) =>
+            if (_shareEditDoneHandler != null)
+            {
+                shareEditWindowManage.ShareEditDone -= _shareEditDoneHandler;
+            }
+
+            _shareEditDoneHandler = (s, e) =>
             {
                 OnRefreshHistories();
+                shareEditWindowManage.ShareEditDone -= _shareEditDoneHandler;
+                _shareEditDoneHandler = null;
             };
+
+            shareEditWindowManage.ShareEditDone += _shareEditDoneHandler;
             shareEditWindowManage.CreateShareEditWindow(share);
         }
 
