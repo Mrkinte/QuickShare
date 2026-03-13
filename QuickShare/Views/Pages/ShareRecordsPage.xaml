@@ -1,0 +1,143 @@
+﻿<Page
+    x:Class="QuickShare.Views.Pages.ShareRecordsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="clr-namespace:QuickShare.Helpers"
+    xmlns:local="clr-namespace:QuickShare.Views.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="ShareRecordsPage"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
+    ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <helpers:InvertedBooleanToVisibilityConverter x:Key="InvertedBooleanToVisibilityConverter" />
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <ui:TextBlock
+                    Margin="0,0,12,0"
+                    VerticalAlignment="Center"
+                    FontSize="16"
+                    Text="选择想要分享的内容" />
+                <ui:Button
+                    Margin="0,0,12,0"
+                    Command="{Binding CreateShareFromFileCommand}"
+                    Content="文件">
+                    <ui:Button.Icon>
+                        <ui:SymbolIcon Foreground="DeepSkyBlue" Symbol="Document24" />
+                    </ui:Button.Icon>
+                </ui:Button>
+                <ui:Button
+                    Margin="0,0,12,0"
+                    Command="{Binding CreateShareFromFolderCommand}"
+                    Content="文件夹">
+                    <ui:Button.Icon>
+                        <ui:SymbolIcon Foreground="Orange" Symbol="Folder24" />
+                    </ui:Button.Icon>
+                </ui:Button>
+            </StackPanel>
+
+            <ui:Button
+                Grid.Column="1"
+                HorizontalAlignment="Right"
+                Command="{Binding UpdateShareRecordsCommand}"
+                Content="刷新分享列表">
+                <ui:Button.Icon>
+                    <ui:SymbolIcon Foreground="LightSeaGreen" Symbol="ArrowSync24" />
+                </ui:Button.Icon>
+            </ui:Button>
+        </Grid>
+        <ui:DataGrid
+            Grid.Row="1"
+            Margin="0,12,0,12"
+            AutoGenerateColumns="False"
+            CanUserAddRows="False"
+            ItemsSource="{Binding ShareRecords, Mode=OneWay}">
+            <!--  Style  -->
+            <DataGrid.ColumnHeaderStyle>
+                <Style BasedOn="{StaticResource DefaultDataGridColumnHeaderStyle}" TargetType="DataGridColumnHeader">
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <DataGrid.CellStyle>
+                <Style BasedOn="{StaticResource DefaultDataGridCellStyle}" TargetType="DataGridCell">
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                </Style>
+            </DataGrid.CellStyle>
+
+            <!--  Content  -->
+            <ui:DataGrid.Columns>
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding CreateTime, Mode=OneWay}"
+                    Header="创建时间"
+                    IsReadOnly="True" />
+                <DataGridTemplateColumn Width="Auto" Header="包含">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <ui:TextBlock Margin="0,0,4,0" Text="{Binding FileCount, Mode=OneWay}" />
+                                <ui:TextBlock Text="个文件，" />
+                                <ui:TextBlock Margin="0,0,4,0" Text="{Binding DirectoryCount, Mode=OneWay}" />
+                                <ui:TextBlock Text="个文件夹" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding Description, Mode=OneWay}"
+                    Header="备注"
+                    IsReadOnly="True" />
+                <DataGridTemplateColumn Width="Auto" Header="操作">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <ui:Button
+                                    Command="{Binding DataContext.EditShareRecordCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                    CommandParameter="{Binding}"
+                                    Content="编辑">
+                                    <ui:Button.Icon>
+                                        <ui:SymbolIcon Foreground="DeepSkyBlue" Symbol="Edit24" />
+                                    </ui:Button.Icon>
+                                </ui:Button>
+                                <ui:Button
+                                    Margin="12,0,0,0"
+                                    Command="{Binding DataContext.OpenShareDialogCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                    CommandParameter="{Binding}"
+                                    Content="分享">
+                                    <ui:Button.Icon>
+                                        <ui:SymbolIcon Foreground="LightSeaGreen" Symbol="Share24" />
+                                    </ui:Button.Icon>
+                                </ui:Button>
+                                <ui:Button
+                                    Margin="12,0,0,0"
+                                    Command="{Binding DataContext.DeleteShareRecordCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                    CommandParameter="{Binding}"
+                                    Content="删除">
+                                    <ui:Button.Icon>
+                                        <ui:SymbolIcon Foreground="Red" Symbol="Delete24" />
+                                    </ui:Button.Icon>
+                                </ui:Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </ui:DataGrid.Columns>
+        </ui:DataGrid>
+    </Grid>
+</Page>

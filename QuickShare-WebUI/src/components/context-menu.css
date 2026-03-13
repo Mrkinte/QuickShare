@@ -1,0 +1,113 @@
+/* context-menu.css */
+/* 右键菜单基础样式 */
+
+/* 菜单容器 */
+.context-menu {
+    position: fixed;
+    z-index: 10;
+    background-color: white;
+    border: 1px solid #dcdfe6;
+    border-radius: 4px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    min-width: 120px;
+    padding: 5px 0;
+    animation: context-menu-fade-in 0.15s ease-out;
+    overflow: hidden;
+}
+
+/* 菜单内容区域 */
+.context-menu-content {
+    display: flex;
+    flex-direction: column;
+}
+
+/* 菜单项 */
+.context-menu-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #606266;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    user-select: none;
+    white-space: nowrap;
+}
+
+/* 菜单项悬停效果 */
+.context-menu-item:hover {
+    background-color: #f5f7fa;
+    color: #409eff;
+}
+
+/* 禁用状态的菜单项 */
+.context-menu-item--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.context-menu-item--disabled:hover {
+    background-color: transparent;
+    color: #606266;
+}
+
+/* 分隔线 */
+.context-menu-divider {
+    height: 1px;
+    background-color: #dcdfe6;
+    margin: 5px 0;
+    border: none;
+}
+
+/* 图标 */
+.context-menu-icon {
+    margin-right: 8px;
+    font-size: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 16px;
+}
+
+/* 右箭头（子菜单） */
+.context-menu-arrow {
+    margin-left: auto;
+    font-size: 12px;
+    color: #909399;
+}
+
+/* 快捷键提示 */
+.context-menu-shortcut {
+    margin-left: 20px;
+    color: #909399;
+    font-size: 12px;
+}
+
+/* 动画效果 */
+@keyframes context-menu-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 关闭动画 */
+.context-menu.closing {
+    animation: context-menu-fade-out 0.15s ease-out;
+}
+
+@keyframes context-menu-fade-out {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+}

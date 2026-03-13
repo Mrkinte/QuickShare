@@ -1,0 +1,112 @@
+﻿<ui:FluentWindow
+    x:Class="QuickShare.Views.Windows.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:control="clr-namespace:QuickShare.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:QuickShare.Views.Windows"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:tb="http://www.hardcodet.net/taskbar"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="{Binding ApplicationTitle, Mode=OneWay}"
+    Width="1100"
+    Height="650"
+    d:DataContext="{d:DesignInstance local:MainWindow,
+                                     IsDesignTimeCreatable=True}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Closing="FluentWindow_Closing"
+    ExtendsContentIntoTitleBar="True"
+    WindowBackdropType="Mica"
+    WindowCornerPreference="Round"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <!--  托盘图标  -->
+        <tb:TaskbarIcon
+            x:Name="TrayIcon"
+            IconSource="pack://application:,,,/Assets/tray-icon.ico"
+            ToolTipText="QuickShare"
+            TrayMouseDoubleClick="ShowWindow_Click"
+            Visibility="Visible">
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Click="ShowWindow_Click" Header="显示窗口" />
+                    <MenuItem Click="ExitApp_Click" Header="退出" />
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+        </tb:TaskbarIcon>
+        <ui:TitleBar
+            x:Name="TitleBar"
+            Title="{Binding ApplicationTitle}"
+            Grid.Row="0"
+            CloseWindowByDoubleClickOnIcon="True"
+            FontSize="16"
+            FontWeight="Bold">
+            <ui:TitleBar.Icon>
+                <ui:ImageIcon Source="pack://application:,,,/Assets/app-icon-512.png" />
+            </ui:TitleBar.Icon>
+        </ui:TitleBar>
+        <ui:NavigationView
+            x:Name="RootNavigation"
+            Padding="42,0,42,0"
+            BreadcrumbBar="{Binding ElementName=BreadcrumbBar}"
+            FooterMenuItemsSource="{Binding FooterMenuItems, Mode=OneWay}"
+            FrameMargin="0"
+            IsBackButtonVisible="Visible"
+            IsFooterSeparatorVisible="False"
+            IsPaneOpen="False"
+            IsPaneToggleVisible="True"
+            IsTopSeparatorVisible="False"
+            MenuItemsSource="{Binding MenuItems, Mode=OneWay}"
+            OpenPaneLength="180"
+            PaneDisplayMode="Left"
+            TitleBar="{Binding ElementName=TitleBar, Mode=OneWay}">
+            <ui:NavigationView.Header>
+                <Grid Margin="42,32,42,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <ui:BreadcrumbBar x:Name="BreadcrumbBar" Grid.Column="0" />
+                    <StackPanel
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <StackPanel
+                            Orientation="Horizontal"
+                            ToolTip="{Binding OnlineIps}"
+                            ToolTipService.InitialShowDelay="0">
+                            <ui:TextBlock Text="在线数：" />
+                            <ui:TextBlock Margin="4,0,0,0" Text="{Binding OnlineCount}" />
+                        </StackPanel>
+                        <ui:TextBlock Margin="24,0,0,0" Text="{Binding ServerStatus}" />
+                        <Border
+                            x:Name="ServerStatusColor"
+                            Width="12"
+                            Height="12"
+                            Margin="4,0,0,0"
+                            Background="{Binding ServerStatusColor}"
+                            CornerRadius="6" />
+                    </StackPanel>
+                </Grid>
+            </ui:NavigationView.Header>
+            <ui:NavigationView.ContentOverlay>
+                <Grid>
+                    <ui:SnackbarPresenter x:Name="SnackbarPresenter" />
+                </Grid>
+            </ui:NavigationView.ContentOverlay>
+        </ui:NavigationView>
+        <control:LoadingOverlay
+            x:Name="LoadingOverlay"
+            Grid.Row="0"
+            IsBusy="{Binding IsBusy}" />
+        <ui:ContentDialogHost x:Name="RootContentDialog" Grid.Row="0" />
+    </Grid>
+</ui:FluentWindow>

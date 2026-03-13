@@ -1,0 +1,38 @@
+﻿<ui:ContentDialog
+    x:Class="QuickShare.Views.Pages.CloseContentDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:QuickShare.Views.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="您点击了关闭按钮，是想要："
+    d:DesignHeight="160"
+    d:DesignWidth="500"
+    ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
+    ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    CloseButtonText="取消"
+    IsPrimaryButtonEnabled="True"
+    PrimaryButtonAppearance="Primary"
+    PrimaryButtonText="确定"
+    mc:Ignorable="d">
+    <ui:ContentDialog.Resources>
+        <Style BasedOn="{StaticResource {x:Type ui:ContentDialog}}" TargetType="{x:Type local:CloseContentDialog}" />
+    </ui:ContentDialog.Resources>
+    <StackPanel Width="480">
+        <RadioButton
+            x:Name="MinimizeRadioButton"
+            Margin="22,0,0,8"
+            Content="最小化到托盘"
+            GroupName="CloseMethod" />
+        <RadioButton
+            x:Name="ExitRadioButton"
+            Margin="22,0,0,8"
+            Content="退出"
+            GroupName="CloseMethod" />
+        <CheckBox
+            x:Name="DisableCloseMessageCheckBox"
+            Margin="12,0,0,0"
+            Content="下次不再提示" />
+    </StackPanel>
+</ui:ContentDialog>
