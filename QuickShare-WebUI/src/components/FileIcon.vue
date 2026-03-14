@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { fileType } from "../helpers/FileHelper.ts";
-import { Icon } from "@iconify/vue";
 
 type FileIconProps = {
   size: number;
@@ -19,7 +18,7 @@ withDefaults(defineProps<FileIconProps>(), {
     class="folder-icon"
     :size="size"
   >
-    <Icon icon="fluent:folder-open-24-filled" />
+    <FluentFolderOpen24Filled />
   </el-icon>
 
   <!-- 图片图标 -->
@@ -28,7 +27,7 @@ withDefaults(defineProps<FileIconProps>(), {
     class="image-icon"
     :size="size"
   >
-    <Icon icon="fluent:image-24-regular" />
+    <FluentImage24Regular />
   </el-icon>
 
   <!-- 视频图标 -->
@@ -37,7 +36,7 @@ withDefaults(defineProps<FileIconProps>(), {
     class="video-icon"
     :size="size"
   >
-    <Icon icon="fluent:video-clip-24-filled" />
+    <FluentVideoClip24Filled />
   </el-icon>
 
   <!-- 音频图标 -->
@@ -46,7 +45,7 @@ withDefaults(defineProps<FileIconProps>(), {
     class="audio-icon"
     :size="size"
   >
-    <Icon icon="fluent:music-note-2-play-20-filled" />
+    <FluentMusicNote2Play20Filled />
   </el-icon>
 
   <!-- 文档图标 -->
@@ -55,7 +54,7 @@ withDefaults(defineProps<FileIconProps>(), {
     class="document-icon"
     :size="size"
   >
-    <Icon icon="fluent:document-table-24-filled" />
+    <FluentDocumentTable24Filled />
   </el-icon>
 
   <!-- 压缩文件图标 -->
@@ -64,12 +63,12 @@ withDefaults(defineProps<FileIconProps>(), {
     class="compressed-icon"
     :size="size"
   >
-    <Icon icon="fluent:folder-zip-24-filled" />
+    <FluentFolderZip24Filled />
   </el-icon>
 
   <!-- 默认文件图标 -->
   <el-icon v-else class="default-icon" :size="size">
-    <Icon icon="fluent:document-24-filled" />
+    <FluentDocument24Filled />
   </el-icon>
 </template>
 

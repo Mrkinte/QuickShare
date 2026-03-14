@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import axios from "axios";
-import { Icon } from "@iconify/vue";
 import { Vue3Menus } from "vue3-menus";
 import FileComponent from "../components/FileComponent.vue";
 import { ArrowRight, Search } from "@element-plus/icons-vue";
@@ -198,8 +197,8 @@ const handleClick = (fileProps: FileProps) => {
 
 const handleDoubleClick = async (fileProps: FileProps) => {
   if (fileProps.extension === ".folder") {
-    await getFiles(fileProps.fileId);
     addBreadcrumbItem(fileProps);
+    await getFiles(fileProps.fileId);
   } else if (fileType(fileProps.extension) === "image") {
     imageSrcList.value = [];
     const ticket = await getDownloadTicket(fileProps.fileId);
@@ -376,7 +375,7 @@ onMounted(() => {
         @click="backLastDirectory"
       >
         <el-icon size="20">
-          <Icon icon="fluent:arrow-left-24-regular" />
+          <FluentArrowLeft24Regular />
         </el-icon>
       </el-button>
       <el-breadcrumb :separator-icon="ArrowRight">
@@ -400,7 +399,7 @@ onMounted(() => {
         <el-tooltip content="搜索文件" placement="top">
           <el-button @click="showSearchBar = !showSearchBar">
             <el-icon size="20">
-              <Icon icon="fluent:search-24-regular" />
+              <FluentSearch24Regular />
             </el-icon>
           </el-button>
         </el-tooltip>
@@ -408,14 +407,14 @@ onMounted(() => {
           <el-tooltip content="列表" placement="top">
             <el-button @click="handleViewMethod(true)" :disabled="isListView">
               <el-icon size="20">
-                <Icon icon="fluent:apps-list-24-regular" />
+                <FluentAppsList24Regular />
               </el-icon>
             </el-button>
           </el-tooltip>
           <el-tooltip content="图标" placement="top">
             <el-button @click="handleViewMethod(false)" :disabled="!isListView">
               <el-icon size="20">
-                <Icon icon="fluent:grid-24-regular" />
+                <FluentGrid24Regular />
               </el-icon>
             </el-button>
           </el-tooltip>
@@ -425,7 +424,7 @@ onMounted(() => {
             @click="getFiles(breadcrumbs[breadcrumbs.length - 1]?.fileId)"
           >
             <el-icon size="20">
-              <Icon icon="fluent:arrow-sync-24-regular" />
+              <FluentArrowSync24Regular />
             </el-icon>
           </el-button>
         </el-tooltip>

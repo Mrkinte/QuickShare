@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import axios from "axios";
-import { Icon } from "@iconify/vue";
 import { Vue3Menus } from "vue3-menus";
 import FileComponent from "../components/FileComponent.vue";
 import { ArrowRight, Search } from "@element-plus/icons-vue";
@@ -399,7 +398,7 @@ onMounted(() => {
     <div class="path-breadcrumb">
       <el-button :disabled="currentPath === '/'" @click="getFiles(lastPath)">
         <el-icon size="20">
-          <Icon icon="fluent:arrow-left-24-regular" />
+          <FluentArrowLeft24Regular />
         </el-icon>
       </el-button>
       <el-breadcrumb :separator-icon="ArrowRight">
@@ -417,7 +416,7 @@ onMounted(() => {
         <el-button @click="handleUpload">
           <div class="menu-bar-button">
             <el-icon size="20">
-              <Icon icon="fluent:document-add-24-filled" />
+              <FluentdocumentAdd24Filled />
             </el-icon>
             上传文件
           </div></el-button
@@ -425,7 +424,7 @@ onMounted(() => {
         <el-button @click="handleCreateFolder">
           <div class="menu-bar-button">
             <el-icon size="20">
-              <Icon icon="fluent:folder-add-24-filled" />
+              <FluentfolderAdd24Filled />
             </el-icon>
             新建文件夹
           </div></el-button
@@ -436,7 +435,7 @@ onMounted(() => {
         <el-tooltip content="搜索文件" placement="top">
           <el-button @click="showSearchBar = !showSearchBar">
             <el-icon size="20">
-              <Icon icon="fluent:search-24-regular" />
+              <FluentSearch24Regular />
             </el-icon>
           </el-button>
         </el-tooltip>
@@ -444,14 +443,14 @@ onMounted(() => {
           <el-tooltip content="列表" placement="top">
             <el-button @click="handleViewMethod(true)" :disabled="isListView">
               <el-icon size="20">
-                <Icon icon="fluent:apps-list-24-regular" />
+                <FluentAppsList24Regular />
               </el-icon>
             </el-button>
           </el-tooltip>
           <el-tooltip content="图标" placement="top">
             <el-button @click="handleViewMethod(false)" :disabled="!isListView">
               <el-icon size="20">
-                <Icon icon="fluent:grid-24-regular" />
+                <FluentGrid24Regular />
               </el-icon>
             </el-button>
           </el-tooltip>
@@ -459,7 +458,7 @@ onMounted(() => {
         <el-tooltip content="刷新" placement="top">
           <el-button @click="getFiles(currentPath)">
             <el-icon size="20">
-              <Icon icon="fluent:arrow-sync-24-regular" />
+              <FluentArrowSync24Regular />
             </el-icon>
           </el-button>
         </el-tooltip>

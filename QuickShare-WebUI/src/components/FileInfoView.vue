@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Icon } from "@iconify/vue";
 import FileIcon from "./FileIcon.vue";
 import { formatFileSize } from "../helpers/CustomHelper.ts";
 
@@ -45,7 +44,7 @@ const emit = defineEmits<{ close: [] }>();
           </el-text>
           <el-button @click="emit('close')">
             <el-icon size="20" color="red">
-              <Icon icon="fluent:dismiss-24-regular" />
+              <FluentDismiss24Regular />
             </el-icon>
           </el-button>
         </div>

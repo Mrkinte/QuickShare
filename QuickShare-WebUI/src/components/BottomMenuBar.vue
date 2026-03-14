@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Icon } from "@iconify/vue";
 import type { FileProps } from "../helpers/FileHelper.ts";
 
 /**
@@ -43,7 +42,7 @@ const emit = defineEmits<{
         >
           <div class="menu-bar-button">
             <el-icon size="20">
-              <Icon icon="fluent:document-add-24-filled" />
+              <FluentDocumentAdd24Filled />
             </el-icon>
             打开
           </div></el-button
@@ -55,7 +54,7 @@ const emit = defineEmits<{
         >
           <div class="menu-bar-button">
             <el-icon size="20">
-              <Icon icon="fluent:document-add-24-filled" />
+              <FluentCloudDownload24Filled />
             </el-icon>
             下载
           </div></el-button
@@ -67,7 +66,7 @@ const emit = defineEmits<{
         >
           <div class="menu-bar-button">
             <el-icon size="20">
-              <Icon icon="fluent:document-add-24-filled" />
+              <FluentInfo24Filled />
             </el-icon>
             属性
           </div></el-button
