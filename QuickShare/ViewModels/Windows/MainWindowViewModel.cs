@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+﻿using QuickShare.Helpers;
 using QuickShare.Services;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
@@ -117,6 +116,22 @@ namespace QuickShare.ViewModels.Windows
                     "为避免数据泄露，请及时修改默认密码（设置->传输->登录密码）。\n\n" +
                     "本软件仅支持在局域网中进行文件传输，使用时请确保各设备处于同一局域网内。\n\n" +
                     "由于本软件的SSL证书采用的是自签名证书，若第一次访问时浏览器出现风险提示，请将证书添加到信任列表。");
+
+                // 尝试自动选择一个常用的网络接口。
+                foreach (var network in NetworkHelper.GetActiveNetworkInterfaces())
+                {
+                    if (network.Name == "以太网")
+                    {
+                        appConfigService.NetworkConfig.DefaultNetwork = "以太网";
+                        break;
+                    }
+                    else if (network.Name == "WLAN")
+                    {
+                        appConfigService.NetworkConfig.DefaultNetwork = "WLAN";
+                        break;
+                    }
+                }
+
                 appConfigService.UserConfig.IsFirstRun = false;
                 appConfigService.SaveConfig();
             }
