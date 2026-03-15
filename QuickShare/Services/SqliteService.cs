@@ -16,7 +16,8 @@ namespace QuickShare.Services
             try
             {
                 _logger = logger;
-                _connection = new SqliteConnection("Data Source=sqlite.db");
+                var dbPath = Path.Combine(AppContext.BaseDirectory, "sqlite.db");
+                _connection = new SqliteConnection($"Data Source={dbPath}");
                 _connection.Open();
             }
             catch (Exception ex)

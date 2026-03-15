@@ -47,7 +47,7 @@ namespace QuickShare.Services
             _appConfig = new AppConfig();
 
             // Load or generate AES key.
-            string keyPath = "aes-key.bin";
+            string keyPath = Path.Combine(AppContext.BaseDirectory, "aes-key.bin");
             if (File.Exists(keyPath))
             {
                 AesKey = AesEncryptHelper.LoadKeyFromBinary(keyPath);
