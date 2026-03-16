@@ -123,51 +123,51 @@
             </ui:BreadcrumbBar.ItemTemplate>
         </ui:BreadcrumbBar>
         <ui:DataGrid
+            x:Name="DataGrid"
             Grid.Row="3"
             Margin="0,0,0,12"
             AutoGenerateColumns="False"
             CanUserAddRows="False"
             ItemsSource="{Binding FileRecords, Mode=OneWay}">
+            <ui:DataGrid.Resources>
+                <ContextMenu x:Key="CellContextMenu">
+                    <MenuItem
+                        Command="{Binding Source={x:Reference DataGrid}, Path=DataContext.CopyFilePathCommand}"
+                        CommandParameter="{Binding}"
+                        Header="复制路径">
+                        <MenuItem.Icon>
+                            <ui:SymbolIcon Symbol="Copy24" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+
+                    <MenuItem
+                        Command="{Binding Source={x:Reference DataGrid}, Path=DataContext.ShowInExplorerCommand}"
+                        CommandParameter="{Binding}"
+                        Header="在资源管理器中打开">
+                        <MenuItem.Icon>
+                            <ui:SymbolIcon Symbol="Open24" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </ui:DataGrid.Resources>
             <!--  Style  -->
-            <DataGrid.ColumnHeaderStyle>
+            <ui:DataGrid.ColumnHeaderStyle>
                 <Style BasedOn="{StaticResource DefaultDataGridColumnHeaderStyle}" TargetType="DataGridColumnHeader">
                     <Setter Property="HorizontalContentAlignment" Value="Center" />
                 </Style>
-            </DataGrid.ColumnHeaderStyle>
-            <DataGrid.CellStyle>
+            </ui:DataGrid.ColumnHeaderStyle>
+            <ui:DataGrid.CellStyle>
                 <Style BasedOn="{StaticResource DefaultDataGridCellStyle}" TargetType="DataGridCell">
                     <Setter Property="HorizontalAlignment" Value="Center" />
                 </Style>
-            </DataGrid.CellStyle>
+            </ui:DataGrid.CellStyle>
 
             <ui:DataGrid.Columns>
                 <DataGridTemplateColumn Width="*" Header="文件（文件夹）">
                     <DataGridTemplateColumn.CellStyle>
                         <Style BasedOn="{StaticResource DefaultDataGridCellStyle}" TargetType="DataGridCell">
                             <Setter Property="HorizontalAlignment" Value="Stretch" />
-                            <Setter Property="ContextMenu">
-                                <Setter.Value>
-                                    <ContextMenu>
-                                        <MenuItem
-                                            Command="{Binding DataContext.CopyFilePathCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                            CommandParameter="{Binding}"
-                                            Header="复制路径">
-                                            <MenuItem.Icon>
-                                                <ui:SymbolIcon Symbol="Copy24" />
-                                            </MenuItem.Icon>
-                                        </MenuItem>
-
-                                        <MenuItem
-                                            Command="{Binding DataContext.ShowInExplorerCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                            CommandParameter="{Binding}"
-                                            Header="在资源管理器中打开">
-                                            <MenuItem.Icon>
-                                                <ui:SymbolIcon Symbol="Open24" />
-                                            </MenuItem.Icon>
-                                        </MenuItem>
-                                    </ContextMenu>
-                                </Setter.Value>
-                            </Setter>
+                            <Setter Property="ContextMenu" Value="{StaticResource CellContextMenu}" />
                         </Style>
                     </DataGridTemplateColumn.CellStyle>
                     <DataGridTemplateColumn.CellTemplate>

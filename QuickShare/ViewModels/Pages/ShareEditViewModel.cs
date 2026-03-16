@@ -1,10 +1,9 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using QuickShare.Helpers;
+﻿using QuickShare.Helpers;
 using QuickShare.Models;
 using QuickShare.Services;
 using Serilog;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -237,11 +236,32 @@ namespace QuickShare.ViewModels.Pages
         [RelayCommand]
         private void OnCopyFilePath(FileRecordModel fileRecord)
         {
+            var path = sqliteService.GetFullPath(fileRecord.FileId);
+            System.Windows.Clipboard.SetText(path);
+            snackbarService.Show(
+                "提示",
+                $"复制成功：{path}",
+                ControlAppearance.Success,
+                new SymbolIcon(SymbolRegular.CheckmarkCircle24),
+                TimeSpan.FromSeconds(5));
         }
 
         [RelayCommand]
         private void OnShowInExplorer(FileRecordModel fileRecord)
         {
+            var path = sqliteService.GetFullPath(fileRecord.FileId).Replace("/", "\\");
+            if (Directory.Exists(path))
+            {
+                Process.Start("explorer.exe", path);
+            }
+            else if (File.Exists(path))
+            {
+                var parentDirectory = Directory.GetParent(path);
+                if (parentDirectory != null)
+                {
+                    Process.Start("explorer.exe", parentDirectory.FullName);
+                }
+            }
         }
 
         [RelayCommand]
