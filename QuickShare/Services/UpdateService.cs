@@ -1,7 +1,6 @@
 ﻿using QuickShare.Views.Windows;
 using Serilog;
 using System.Net.Http;
-using System.Windows;
 using System.Xml.Linq;
 using Wpf.Ui;
 using Wpf.Ui.Controls;
@@ -15,7 +14,7 @@ namespace QuickShare.Services
     {
         // Update source
         private readonly List<string> _urlList = new List<string> {
-            "https://sourceforge.net/p/quick-share/code/ci/main/tree/version.xml?format=raw",
+            "https://gitee.com/kinte/QuickShare/raw/main/version.xml",
             "https://raw.githubusercontent.com/Mrkinte/QuickShare/refs/heads/main/version.xml"};
 
         private bool _isBusy = false;
