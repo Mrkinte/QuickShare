@@ -184,8 +184,8 @@ const handleDoubleClick = (fileProps: FileProps) => {
           getApiBaseUrl() +
           `/api/transmit/download${normalizedPath}${file.name}`;
         imageSrcList.value.push(fullSrc);
+        index += 1;
       }
-      index += 1;
     });
     showImagePreview.value = true;
   } else {
