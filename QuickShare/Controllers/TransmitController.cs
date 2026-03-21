@@ -88,7 +88,24 @@ namespace QuickShare.Controllers
         [HttpGet("parameter")]
         public IActionResult GetParameters()
         {
-            return Ok(new { maxFileSize = appConfigService.TransmitConfig.MaxFileSize });
+            return Ok(new
+            {
+                maxFileSize = appConfigService.TransmitConfig.MaxFileSize,
+                autoSorting = appConfigService.TransmitConfig.AutoSorting
+            });
+        }
+
+        /// <summary>
+        /// 是否启用上传文件自动分类功能。
+        /// </summary>
+        /// <param name="autoSorting">true-启用 false-禁用</param>
+        /// <returns></returns>
+        [HttpPost("sorting")]
+        public IActionResult SetAutoSorting([FromForm] bool autoSorting)
+        {
+            appConfigService.TransmitConfig.AutoSorting = autoSorting;
+            appConfigService.SaveConfig();
+            return Ok(new { message = "Successful" });
         }
 
         /// <summary>

@@ -25,6 +25,7 @@ const canTouch = ref(false);
 const isListView = ref(false);
 const uploadRef = ref<UploadInstance>();
 const uploadMaxSize = ref(0);
+const autoSorting = ref(false);
 
 const multipleSelection = ref<FileProps[]>([]);
 const currentSelection = ref<FileProps>({ name: "", fileId: 0, extension: "" });
@@ -155,6 +156,22 @@ const getUploadParams = async () => {
       return;
     }
     uploadMaxSize.value = response.data.maxFileSize * 1024 * 1024;
+    autoSorting.value = response.data.autoSorting;
+  });
+};
+
+const setAutoSorting = async () => {
+  const formData = new FormData();
+  formData.append("autoSorting", autoSorting.value.toString());
+  await axios.post("/api/transmit/sorting", formData).then((response) => {
+    if (response.data.message === "Successful") {
+      ElNotification.success({
+        title: "提示",
+        message: autoSorting.value
+          ? "已启用上传文件时自动分类功能"
+          : "已禁用上传文件时自动分类功能",
+      });
+    }
   });
 };
 //endregion
@@ -413,22 +430,34 @@ onMounted(() => {
     <div class="menu-bar">
       <!--Left-->
       <div class="menu-bar-left">
-        <el-button @click="handleUpload">
-          <div class="menu-bar-button">
-            <el-icon size="20">
-              <FluentdocumentAdd24Filled />
-            </el-icon>
-            上传文件
-          </div></el-button
+        <div>
+          <el-button @click="handleUpload">
+            <div class="menu-bar-button">
+              <el-icon size="20">
+                <FluentdocumentAdd24Filled />
+              </el-icon>
+              上传文件
+            </div></el-button
+          >
+          <el-button @click="handleCreateFolder">
+            <div class="menu-bar-button">
+              <el-icon size="20">
+                <FluentfolderAdd24Filled />
+              </el-icon>
+              新建文件夹
+            </div></el-button
+          >
+        </div>
+        <el-tooltip
+          content="上传文件时，根据文件类型的不同保存到对应的文件夹中。"
+          placement="top"
         >
-        <el-button @click="handleCreateFolder">
-          <div class="menu-bar-button">
-            <el-icon size="20">
-              <FluentfolderAdd24Filled />
-            </el-icon>
-            新建文件夹
-          </div></el-button
-        >
+          <el-switch
+            v-model="autoSorting"
+            inactive-text="自动分类"
+            @change="setAutoSorting"
+          />
+        </el-tooltip>
       </div>
       <!--Right-->
       <div class="menu-bar-right">
@@ -641,6 +670,7 @@ onMounted(() => {
 .menu-bar-left {
   display: flex;
   align-items: center;
+  gap: 12px;
 }
 
 .menu-bar-right {
@@ -679,6 +709,11 @@ onMounted(() => {
   .menu-bar {
     gap: 16px;
     flex-direction: column;
+  }
+
+  .menu-bar-left {
+    flex-direction: column;
+    align-items: start;
   }
 }
 </style>

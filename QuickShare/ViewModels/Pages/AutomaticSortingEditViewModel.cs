@@ -233,6 +233,11 @@ namespace QuickShare.ViewModels.Pages
             if (!_isInitialized)
                 InitializeViewModel();
 
+            ModifyBtnEnabled = false;
+            ModifyBtnAppearance = ControlAppearance.Secondary;
+            AutoSorting = appConfigService.TransmitConfig.AutoSorting;
+            SortingRules = new ObservableCollection<SortingRuleModel>(sqliteService.ReadAllSortingRules());
+            WaitRemoveSortingRules = new();
             return Task.CompletedTask;
         }
 
@@ -240,7 +245,6 @@ namespace QuickShare.ViewModels.Pages
 
         private void InitializeViewModel()
         {
-            SortingRules = new ObservableCollection<SortingRuleModel>(sqliteService.ReadAllSortingRules());
             _isInitialized = true;
         }
 
