@@ -262,6 +262,15 @@ namespace QuickShare.ViewModels.Pages
                     Process.Start("explorer.exe", parentDirectory.FullName);
                 }
             }
+            else
+            {
+                snackbarService.Show(
+                    "提示",
+                    "该文件或文件夹不存在，可能已从硬盘中删除。",
+                    ControlAppearance.Caution,
+                    new SymbolIcon(SymbolRegular.Warning24),
+                    TimeSpan.FromSeconds(5));
+            }
         }
 
         [RelayCommand]
