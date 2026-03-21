@@ -126,7 +126,7 @@ namespace QuickShare.ViewModels.Pages
                         var fileCount = await Task.Run(() => CustomHelper.GetFileCount(folderDialog.SelectedPath));
                         if (fileCount > MaxFileCountThreshold)
                         {
-                            _ = messageBoxService.ShowMessage("警告", $"选择的文件夹中包含超过{MaxFileCountThreshold}个文件，建议归档或压缩后再分享。");
+                            _ = messageBoxService.ShowMessage("提示", $"选择的文件夹中包含超过{MaxFileCountThreshold}个文件，建议归档或压缩后再分享。");
                             return;
                         }
                         var shareId = await Task.Run(() => sqliteService.AddFileRecords(ShareRecord.ShareId, [folderDialog.SelectedPath]));
@@ -167,7 +167,7 @@ namespace QuickShare.ViewModels.Pages
             if (Regex.IsMatch(VerificationCode, @"[^a-zA-Z0-9]"))
             {
                 snackbarService.Show(
-                    "警告",
+                    "提示",
                     "验证码中存在非法字符，仅支字母和数字。",
                     ControlAppearance.Caution,
                     new SymbolIcon(SymbolRegular.Warning24),
@@ -270,7 +270,7 @@ namespace QuickShare.ViewModels.Pages
             if (FileRecords.Count == 1)
             {
                 snackbarService.Show(
-                    "警告",
+                    "提示",
                     "至少需要存在一个分享文件。",
                     ControlAppearance.Caution,
                     new SymbolIcon(SymbolRegular.Warning24),

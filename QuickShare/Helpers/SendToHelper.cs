@@ -22,7 +22,7 @@ namespace QuickShare.Helpers
             var snackbarService = App.Services.GetRequiredService<ISnackbarService>() as SnackbarService;
             if (filePaths.Length > MaxFileCountThreshold)
             {
-                _ = messageBoxService.ShowMessage("警告", $"选择的文件数量超过{MaxFileCountThreshold}（包括文件夹中的文件），建议归档或压缩后再分享。");
+                _ = messageBoxService.ShowMessage("提示", $"选择的文件数量超过{MaxFileCountThreshold}（包括文件夹中的文件），建议归档或压缩后再分享。");
                 return;
             }
             long shareId = 0;
@@ -38,7 +38,7 @@ namespace QuickShare.Helpers
                     var fileCount = await Task.Run(() => CustomHelper.GetFileCount(path));
                     if (fileCount > MaxFileCountThreshold)
                     {
-                        _ = messageBoxService.ShowMessage("警告", $"选择的文件夹中包含超过{MaxFileCountThreshold}个文件，建议归档或压缩后再分享。");
+                        _ = messageBoxService.ShowMessage("提示", $"选择的文件夹中包含超过{MaxFileCountThreshold}个文件，建议归档或压缩后再分享。");
                         return;
                     }
                 }

@@ -11,7 +11,6 @@ using Serilog;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Windows;
 using System.Windows.Threading;
 using Wpf.Ui;
 using Wpf.Ui.DependencyInjection;
@@ -87,6 +86,8 @@ namespace QuickShare
                 services.AddSingleton<DiagnoseViewModel>();
                 services.AddSingleton<SettingsPage>();
                 services.AddSingleton<SettingsViewModel>();
+                services.AddSingleton<AutomaticSortingEditPage>();
+                services.AddSingleton<AutomaticSortingEditViewModel>();
             })
             .ConfigureLogging(logging =>
             {

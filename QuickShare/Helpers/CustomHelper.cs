@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace QuickShare.Helpers
@@ -46,6 +47,20 @@ namespace QuickShare.Helpers
                 result.Freeze();
                 return result;
             }
+        }
+
+        public static T? FindVisualParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+
+            if (parentObject == null)
+                return null;
+
+            T? parent = parentObject as T;
+            if (parent != null)
+                return parent;
+
+            return FindVisualParent<T>(parentObject);
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using QuickShare.Helpers;
+﻿using QuickShare.Helpers;
 using QuickShare.Services;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -257,7 +255,7 @@ namespace QuickShare.ViewModels.Pages
             if (Regex.IsMatch(Password, @"[^a-zA-Z0-9]"))
             {
                 snackbarService.Show(
-                    "警告",
+                    "提示",
                     "密码无效，仅支持字母和数字。",
                     ControlAppearance.Caution,
                     new SymbolIcon(SymbolRegular.Warning24),
@@ -268,7 +266,7 @@ namespace QuickShare.ViewModels.Pages
             if (Password.Length < 4 || Password.Length > 16)
             {
                 snackbarService.Show(
-                    "警告",
+                    "提示",
                     "密码无效，仅支持4-16个字符长度。",
                     ControlAppearance.Caution,
                     new SymbolIcon(SymbolRegular.Warning24),

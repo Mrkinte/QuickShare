@@ -1,13 +1,11 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using QRCoder;
+﻿using QRCoder;
 using QuickShare.Helpers;
 using QuickShare.Services;
+using QuickShare.Views.Pages;
 using Serilog;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
-using System.Windows;
 using System.Windows.Media.Imaging;
 using Wpf.Ui;
 using Wpf.Ui.Abstractions.Controls;
@@ -19,7 +17,8 @@ namespace QuickShare.ViewModels.Pages
         ILogger logger,
         ISnackbarService snackbarService,
         AppConfigService appConfigService,
-        MessageBoxService messageBoxService) : ObservableObject, INavigationAware
+        MessageBoxService messageBoxService,
+        INavigationService navigationService) : ObservableObject, INavigationAware
     {
         private bool _isInitialized = false;
 
@@ -105,6 +104,12 @@ namespace QuickShare.ViewModels.Pages
             }
             appConfigService.NetworkConfig.EnableMdns = EnableMdns;
             appConfigService.SaveConfig();
+        }
+
+        [RelayCommand]
+        private void OnEditAutomaticSorting()
+        {
+            _ = navigationService.NavigateWithHierarchy(typeof(AutomaticSortingEditPage));
         }
 
         #region INavigationAware Members

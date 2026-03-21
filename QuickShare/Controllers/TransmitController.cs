@@ -15,6 +15,7 @@ namespace QuickShare.Controllers
     [ApiController]
     [Route("api/[controller]")]
     public class TransmitController(
+        SqliteService sqliteService,
         AppConfigService appConfigService,
         OnlineCountService onlineCountService,
         ILogger logger) : ControllerBase
@@ -186,12 +187,35 @@ namespace QuickShare.Controllers
                         continue;
                     }
 
-                    // Ensure unique file name
                     if (path.Contains("..") || path.Contains(":"))
                     {
                         return BadRequest(new { error = "Invalid file path." });
                     }
-                    string filePath = (appConfigService.TransmitConfig.SavePath + path + fileName).Replace("/", "\\");
+                    string filePath = string.Empty;
+                    if (appConfigService.TransmitConfig.AutoSorting)
+                    {
+                        var sortingRules = sqliteService.ReadAllSortingRules();
+                        string extension = Path.GetExtension(fileName);
+                        var rule = sortingRules.Find(rule => rule.Extension.Any(x => x == extension));
+                        if (rule != null)
+                        {
+                            string folderPath = appConfigService.TransmitConfig.SavePath + rule.SavePath;
+                            if (!Directory.Exists(folderPath))
+                            {
+                                Directory.CreateDirectory(folderPath);
+                            }
+                            filePath = (folderPath + "\\" + fileName).Replace("/", "\\");
+                        }
+                        else
+                        {
+                            filePath = (appConfigService.TransmitConfig.SavePath + path + fileName).Replace("/", "\\");
+                        }
+                    }
+                    else
+                    {
+                        filePath = (appConfigService.TransmitConfig.SavePath + path + fileName).Replace("/", "\\");
+                    }
+                    // Ensure unique file name
                     int counter = 1;
                     while (System.IO.File.Exists(filePath))
                     {

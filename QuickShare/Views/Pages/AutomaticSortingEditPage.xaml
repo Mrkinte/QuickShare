@@ -1,0 +1,196 @@
+﻿<Page
+    x:Class="QuickShare.Views.Pages.AutomaticSortingEditPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="clr-namespace:QuickShare.Helpers"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:QuickShare.Views.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="AutomaticSortingEditPage"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
+    ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    ui:NavigationView.HeaderContent="文件分类"
+    Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <helpers:InvertedBooleanToVisibilityConverter x:Key="InvertedBooleanToVisibilityConverter" />
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="0,0,0,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <ui:TextBlock VerticalAlignment="Center" FontSize="16">启用上传文件自动分类功能</ui:TextBlock>
+                <ui:ToggleSwitch Margin="12,0,0,0" IsChecked="{Binding AutoSorting}" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <ui:Button
+                    Appearance="{Binding ModifyBtnAppearance}"
+                    Command="{Binding ConfirmModifyCommand}"
+                    Content="保存配置"
+                    IsEnabled="{Binding ModifyBtnEnabled}">
+                    <ui:Button.Icon>
+                        <ui:SymbolIcon Symbol="Checkmark24" />
+                    </ui:Button.Icon>
+                </ui:Button>
+                <ui:Button
+                    Margin="12,0,0,0"
+                    Command="{Binding ExitEditCommand}"
+                    Content="退出编辑">
+                    <ui:Button.Icon>
+                        <ui:SymbolIcon Foreground="Green" Symbol="ArrowLeft24" />
+                    </ui:Button.Icon>
+                </ui:Button>
+            </StackPanel>
+        </Grid>
+        <ui:DataGrid
+            Grid.Row="1"
+            AutoGenerateColumns="False"
+            CanUserAddRows="False"
+            ItemsSource="{Binding SortingRules, Mode=TwoWay}">
+            <!--  Style  -->
+            <ui:DataGrid.ColumnHeaderStyle>
+                <Style BasedOn="{StaticResource DefaultDataGridColumnHeaderStyle}" TargetType="DataGridColumnHeader">
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                </Style>
+            </ui:DataGrid.ColumnHeaderStyle>
+            <ui:DataGrid.CellStyle>
+                <Style BasedOn="{StaticResource DefaultDataGridCellStyle}" TargetType="DataGridCell">
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                    <Setter Property="MinHeight" Value="40" />
+                </Style>
+            </ui:DataGrid.CellStyle>
+            <ui:DataGrid.Columns>
+                <DataGridTemplateColumn MinWidth="100" Header="规则名称">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ui:TextBox
+                                BorderBrush="Transparent"
+                                ClearButtonEnabled="False"
+                                MaxLines="1"
+                                PlaceholderText="规则名称"
+                                Text="{Binding SortingName, Mode=TwoWay}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="LostFocus">
+                                        <i:InvokeCommandAction Command="{Binding DataContext.ModifySortingNameCommand, RelativeSource={RelativeSource AncestorType={x:Type ui:DataGrid}}}" PassEventArgsToCommand="True" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </ui:TextBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn MinWidth="200" Header="存储路径">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ui:HyperlinkButton
+                                VerticalAlignment="Center"
+                                Command="{Binding DataContext.SelectSavePathCommand, RelativeSource={RelativeSource AncestorType={x:Type ui:DataGrid}}}"
+                                CommandParameter="{Binding}"
+                                Content="{Binding SavePath, Mode=OneWay}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*" Header="拓展名">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ItemsControl ItemsSource="{Binding Extension}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel MaxWidth="400" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.Template>
+                                    <ControlTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <ItemsPresenter />
+                                            <ui:TextBox
+                                                Height="26"
+                                                Margin="2"
+                                                Padding="4,2,4,2"
+                                                VerticalAlignment="Center"
+                                                BorderBrush="Transparent"
+                                                ClearButtonEnabled="False"
+                                                MaxLength="32"
+                                                MaxLines="1"
+                                                PlaceholderText="添加">
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="LostFocus">
+                                                        <i:InvokeCommandAction Command="{Binding DataContext.AddExtensionCommand, RelativeSource={RelativeSource AncestorType={x:Type ui:DataGrid}}}" PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </ui:TextBox>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </ItemsControl.Template>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <ui:Button
+                                            Padding="4,2,4,2"
+                                            Appearance="Success"
+                                            Cursor="Hand">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <i:InvokeCommandAction Command="{Binding DataContext.RemoveExtensionCommand, RelativeSource={RelativeSource AncestorType={x:Type ui:DataGrid}}}" PassEventArgsToCommand="True" />
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                            <ui:TextBlock Text="{Binding}">
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="MouseEnter">
+                                                        <i:ChangePropertyAction PropertyName="TextDecorations" Value="Strikethrough" />
+                                                    </i:EventTrigger>
+                                                    <i:EventTrigger EventName="MouseLeave">
+                                                        <i:ChangePropertyAction PropertyName="TextDecorations" Value="None" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </ui:TextBlock>
+                                        </ui:Button>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                                <ItemsControl.ItemContainerStyle>
+                                    <Style TargetType="ContentPresenter">
+                                        <Setter Property="Margin" Value="2" />
+                                    </Style>
+                                </ItemsControl.ItemContainerStyle>
+                            </ItemsControl>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="Auto" Header="操作">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ui:Button
+                                Command="{Binding DataContext.RemoveSortingCommand, RelativeSource={RelativeSource AncestorType={x:Type ui:DataGrid}}}"
+                                CommandParameter="{Binding}"
+                                Content="删除">
+                                <ui:Button.Icon>
+                                    <ui:SymbolIcon Foreground="Red" Symbol="SubtractCircle24" />
+                                </ui:Button.Icon>
+                            </ui:Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </ui:DataGrid.Columns>
+        </ui:DataGrid>
+        <ui:Button
+            Grid.Row="2"
+            Margin="0,12,0,0"
+            HorizontalAlignment="Center"
+            Command="{Binding AddSortingCommand}"
+            Content="添加分类">
+            <ui:Button.Icon>
+                <ui:SymbolIcon Symbol="AddCircle24" />
+            </ui:Button.Icon>
+        </ui:Button>
+    </Grid>
+</Page>

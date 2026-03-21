@@ -31,5 +31,6 @@ namespace QuickShare.Models
         public string Password { get; set; } = "quickshare";
         public int MaxFileSize { get; set; } = 4096;    // 4GB
         public string SavePath { get; set; } = Path.Combine(AppContext.BaseDirectory, "uploads");
+        public bool AutoSorting { get; set; } = false;
     }
 }

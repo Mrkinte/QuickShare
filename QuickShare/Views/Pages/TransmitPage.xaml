@@ -32,6 +32,16 @@
                 <ColumnDefinition Width="4*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
+            <ui:Button
+                Grid.Column="0"
+                Command="{Binding EditAutomaticSortingCommand}"
+                Content="自动分类"
+                ToolTip="上传文件时，根据文件类型自动保存到对应文件夹中。"
+                ToolTipService.InitialShowDelay="0">
+                <ui:Button.Icon>
+                    <ui:SymbolIcon Foreground="Orange" Symbol="ApprovalsApp24" />
+                </ui:Button.Icon>
+            </ui:Button>
             <ui:TextBlock
                 Grid.Column="1"
                 HorizontalAlignment="Center"
@@ -40,15 +50,15 @@
                 Text="扫描下方二维码下载/上传文件" />
             <ui:Button
                 Grid.Column="2"
-                Padding="8"
                 HorizontalAlignment="Right"
-                Background="Transparent"
-                BorderThickness="0"
                 Command="{Binding OpenUploadFolderCommand}"
-                Foreground="Orange"
-                Icon="{ui:SymbolIcon Symbol=Folder24}"
+                Content="上传目录"
                 ToolTip="打开上传目录"
-                ToolTipService.InitialShowDelay="0" />
+                ToolTipService.InitialShowDelay="0">
+                <ui:Button.Icon>
+                    <ui:SymbolIcon Foreground="Orange" Symbol="Folder24" />
+                </ui:Button.Icon>
+            </ui:Button>
         </Grid>
         <ui:Image
             Grid.Row="1"
@@ -99,7 +109,7 @@
             Margin="0,12,0,12"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
-            <ui:TextBlock Text="通过mDNS连接" />
+            <ui:TextBlock VerticalAlignment="Center" Text="通过mDNS连接" />
             <ui:ToggleSwitch
                 Margin="8,0,0,0"
                 Command="{Binding EnableMdnsCommand}"

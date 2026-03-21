@@ -1,4 +1,5 @@
 ﻿using QuickShare.Helpers;
+using QuickShare.Models;
 using QuickShare.Services;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
@@ -10,6 +11,7 @@ namespace QuickShare.ViewModels.Windows
 {
     public partial class MainWindowViewModel(
         WebService webService,
+        SqliteService sqliteService,
         AppConfigService appConfigService,
         MessageBoxService messageBoxService,
         OnlineCountService onlineCountService) : ObservableObject
@@ -130,6 +132,34 @@ namespace QuickShare.ViewModels.Windows
                         appConfigService.NetworkConfig.DefaultNetwork = "WLAN";
                         break;
                     }
+                }
+
+                // 创建默认的分类规则，如果存在旧规则就沿用。
+                if (sqliteService.ReadAllSortingRules().Count == 0)
+                {
+                    var imageRule = new SortingRuleModel
+                    {
+                        SortingName = "图片",
+                        SavePath = "\\图片",
+                        Extension = { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".svg" }
+                    };
+                    sqliteService.AddSortingRule(imageRule);
+
+                    var videoRule = new SortingRuleModel
+                    {
+                        SortingName = "视频",
+                        SavePath = "\\视频",
+                        Extension = { ".mp4", ".mkv", ".mov", ".avi", ".flv", ".wmv" }
+                    };
+                    sqliteService.AddSortingRule(videoRule);
+
+                    var documentRule = new SortingRuleModel
+                    {
+                        SortingName = "文档",
+                        SavePath = "\\文档",
+                        Extension = { ".txt", ".pdf", ".md", ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx" }
+                    };
+                    sqliteService.AddSortingRule(documentRule);
                 }
 
                 appConfigService.UserConfig.IsFirstRun = false;

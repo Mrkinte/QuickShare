@@ -76,6 +76,7 @@
             <DataGrid.CellStyle>
                 <Style BasedOn="{StaticResource DefaultDataGridCellStyle}" TargetType="DataGridCell">
                     <Setter Property="HorizontalAlignment" Value="Center" />
+                    <Setter Property="MinHeight" Value="40"/>
                 </Style>
             </DataGrid.CellStyle>
 

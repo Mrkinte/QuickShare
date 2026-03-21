@@ -1,6 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using QuickShare.Helpers;
+﻿using QuickShare.Helpers;
 using QuickShare.Models;
 using QuickShare.Services;
 using QuickShare.Views.Pages;
@@ -43,7 +41,7 @@ namespace QuickShare.ViewModels.Pages
                     {
                         if (fileDialog.FileNames.Length > MaxFileCountThreshold)
                         {
-                            _ = messageBoxService.ShowMessage("警告", $"选择的文件数量超过{MaxFileCountThreshold}，建议归档或压缩后再分享。");
+                            _ = messageBoxService.ShowMessage("提示", $"选择的文件数量超过{MaxFileCountThreshold}，建议归档或压缩后再分享。");
                             return;
                         }
                         var shareId = await Task.Run(() => sqliteService.AddShareRecord(fileDialog.FileNames));
@@ -80,7 +78,7 @@ namespace QuickShare.ViewModels.Pages
                         var fileCount = await Task.Run(() => CustomHelper.GetFileCount(folderDialog.SelectedPath));
                         if (fileCount > MaxFileCountThreshold)
                         {
-                            _ = messageBoxService.ShowMessage("警告", $"选择的文件夹中包含超过{MaxFileCountThreshold}个文件，建议归档或压缩后再分享。");
+                            _ = messageBoxService.ShowMessage("提示", $"选择的文件夹中包含超过{MaxFileCountThreshold}个文件，建议归档或压缩后再分享。");
                             return;
                         }
                         var shareId = await Task.Run(() => sqliteService.AddShareRecord([folderDialog.SelectedPath]));

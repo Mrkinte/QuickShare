@@ -1,8 +1,10 @@
 ﻿using Microsoft.Data.Sqlite;
 using QuickShare.Models;
 using Serilog;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.IO;
+using Path = System.IO.Path;
 
 namespace QuickShare.Services
 {
@@ -24,6 +26,15 @@ namespace QuickShare.Services
             {
                 throw new Exception("Failed to open SQLite database.", ex);
             }
+
+            using var createSortingRuleTableCmd = new SqliteCommand(@"
+                CREATE TABLE IF NOT EXISTS SortingRules (
+                    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    SortingName TEXT NOT NULL,
+                    SavePath TEXT NOT NULL,
+                    Extension TEXT NOT NULL
+                )", _connection);
+            createSortingRuleTableCmd.ExecuteNonQuery();
 
             using var createMainTableCmd = new SqliteCommand(@"
                 CREATE TABLE IF NOT EXISTS ShareRecords (
@@ -57,6 +68,8 @@ namespace QuickShare.Services
             _connection.CloseAsync();
             _connection.DisposeAsync();
         }
+
+        #region 与文件分享相关的方法
 
         /// <summary>
         /// 添加分享记录，返回生成的ShareId
@@ -134,13 +147,6 @@ namespace QuickShare.Services
         {
             using var deleteCmd = new SqliteCommand(
                 "DELETE FROM ShareRecords WHERE ShareId = @ShareId", _connection);
-
-
-            using var deleteCmd2 = new SqliteCommand(@"
-                WITH DeletedFileRecords AS (
-                    SELECT ShareId FROM FileRecords WHERE ShareId = @ShareId
-                )
-                DELETE FROM FileRecords WHERE id IN(SELECT id FROM DeletedFileRecords);", _connection);
             deleteCmd.Parameters.AddWithValue("@ShareId", shareId);
             return deleteCmd.ExecuteNonQuery();
         }
@@ -394,34 +400,6 @@ namespace QuickShare.Services
         }
 
         /// <summary>
-        /// 更新单个字段的值。
-        /// </summary>
-        /// <param name="table"></param>
-        /// <param name="searchParam"></param>
-        /// <param name="searchValue"></param>
-        /// <param name="updateParam"></param>
-        /// <param name="updateValue"></param>
-        /// <returns></returns>
-        public int UpdateSingleValue(
-            string table,
-            string searchParam,
-            object searchValue,
-            string updateParam,
-            object updateValue)
-        {
-            using var updateCmd = new SqliteCommand(@$"
-                UPDATE {table}
-                SET {updateParam} = @{updateParam}
-                WHERE {searchParam} = @{searchParam}", _connection);
-            updateCmd.Parameters.AddWithValue(updateParam, updateValue);
-            updateCmd.Parameters.AddWithValue(searchParam, searchValue);
-            return updateCmd.ExecuteNonQuery();
-        }
-
-
-        #region Private Methods
-
-        /// <summary>
         /// 遍历子目录并添加记录。
         /// </summary>
         /// <param name="shareId"></param>
@@ -503,5 +481,97 @@ namespace QuickShare.Services
         }
 
         #endregion
+
+        #region 与分类规则相关的方法
+
+        public List<SortingRuleModel> ReadAllSortingRules()
+        {
+            var sortingRules = new List<SortingRuleModel>();
+            using var readAllSortingRulesCmd = new SqliteCommand(
+                "SELECT Id, SortingName, SavePath, Extension FROM SortingRules", _connection);
+            using var reader = readAllSortingRulesCmd.ExecuteReader();
+            while (reader.Read())
+            {
+                var sortingRule = new SortingRuleModel();
+                sortingRule.Id = reader.GetInt32("Id");
+                sortingRule.SortingName = reader.GetString("SortingName");
+                sortingRule.SavePath = reader.GetString("SavePath");
+                string extensionCollection = reader.GetString("Extension");
+                sortingRule.Extension = new ObservableCollection<string>(extensionCollection.Split(','));
+                sortingRules.Add(sortingRule);
+            }
+
+            return sortingRules;
+        }
+
+        public int RemoveSortingRule(long Id)
+        {
+            using var deleteCmd = new SqliteCommand(
+                "DELETE FROM SortingRules WHERE Id = @Id", _connection);
+            deleteCmd.Parameters.AddWithValue("@Id", Id);
+            return deleteCmd.ExecuteNonQuery();
+        }
+
+        public bool AddSortingRule(SortingRuleModel sortingRule)
+        {
+            string extensionCollection = string.Join(",", sortingRule.Extension);
+            using var insertSortingRuleCmd = new SqliteCommand(@"
+                    INSERT INTO SortingRules (SortingName, SavePath, Extension) VALUES (@SortingName, @SavePath, @Extension);
+                    SELECT last_insert_rowid();", _connection);
+            insertSortingRuleCmd.Parameters.AddWithValue("@SortingName", sortingRule.SortingName);
+            insertSortingRuleCmd.Parameters.AddWithValue("@SavePath", sortingRule.SavePath);
+            insertSortingRuleCmd.Parameters.AddWithValue("@Extension", extensionCollection);
+
+            object? insertSortingRuleCmdResutlt = insertSortingRuleCmd.ExecuteScalar();
+            if (insertSortingRuleCmdResutlt == null)
+            {
+                throw new Exception("Insert sorting rule failed, no Id returned.");
+            }
+            return true;
+        }
+
+        public int UpdateSortingRule(SortingRuleModel sortingRule)
+        {
+            if (sortingRule.Id == 0)
+            {
+                return -1;
+            }
+            using var updateCmd = new SqliteCommand(@$"
+                UPDATE SortingRules
+                SET SortingName = @SortingName, SavePath = @SavePath, Extension = @Extension
+                WHERE Id = @Id", _connection);
+            updateCmd.Parameters.AddWithValue("@SortingName", sortingRule.SortingName);
+            updateCmd.Parameters.AddWithValue("@SavePath", sortingRule.SavePath);
+            updateCmd.Parameters.AddWithValue("@Extension", string.Join(",", sortingRule.Extension));
+            updateCmd.Parameters.AddWithValue("@Id", string.Join(",", sortingRule.Id));
+            return updateCmd.ExecuteNonQuery();
+        }
+
+        #endregion
+
+        /// <summary>
+        /// 更新单个字段的值。
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="searchParam"></param>
+        /// <param name="searchValue"></param>
+        /// <param name="updateParam"></param>
+        /// <param name="updateValue"></param>
+        /// <returns></returns>
+        public int UpdateSingleValue(
+            string table,
+            string searchParam,
+            object searchValue,
+            string updateParam,
+            object updateValue)
+        {
+            using var updateCmd = new SqliteCommand(@$"
+                UPDATE {table}
+                SET {updateParam} = @{updateParam}
+                WHERE {searchParam} = @{searchParam}", _connection);
+            updateCmd.Parameters.AddWithValue(updateParam, updateValue);
+            updateCmd.Parameters.AddWithValue(searchParam, searchValue);
+            return updateCmd.ExecuteNonQuery();
+        }
     }
 }
