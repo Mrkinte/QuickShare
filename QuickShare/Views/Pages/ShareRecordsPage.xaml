@@ -76,14 +76,15 @@
             <DataGrid.CellStyle>
                 <Style BasedOn="{StaticResource DefaultDataGridCellStyle}" TargetType="DataGridCell">
                     <Setter Property="HorizontalAlignment" Value="Center" />
-                    <Setter Property="MinHeight" Value="40"/>
+                    <Setter Property="MinHeight" Value="40" />
                 </Style>
             </DataGrid.CellStyle>
 
             <!--  Content  -->
             <ui:DataGrid.Columns>
                 <DataGridTextColumn
-                    Width="*"
+                    Width="Auto"
+                    MinWidth="160"
                     Binding="{Binding CreateTime, Mode=OneWay}"
                     Header="创建时间"
                     IsReadOnly="True" />
@@ -104,7 +105,10 @@
                     Binding="{Binding Description, Mode=OneWay}"
                     Header="备注"
                     IsReadOnly="True" />
-                <DataGridTemplateColumn Width="Auto" Header="操作">
+                <DataGridTemplateColumn
+                    Width="Auto"
+                    MinWidth="260"
+                    Header="操作">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">

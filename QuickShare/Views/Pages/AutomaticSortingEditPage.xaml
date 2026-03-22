@@ -166,7 +166,10 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="Auto" Header="操作">
+                <DataGridTemplateColumn
+                    Width="Auto"
+                    MinWidth="80"
+                    Header="操作">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <ui:Button
