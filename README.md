@@ -27,8 +27,12 @@
 ![Login](https://github.com/Mrkinte/QuickShare/blob/main/QuickShare-WebUI/Docs/Login.png?raw=true)
 
 
-## [📷后端截图](https://github.com/Mrkinte/QuickShare/blob/main/QuickShare/Docs/)
+## [📽️后端截图](https://github.com/Mrkinte/QuickShare/blob/main/QuickShare/Docs/)
 
 - 支持右键菜单->发送到QuickShare，快速分享文件。
 
 ![TransmitScan](https://github.com/Mrkinte/QuickShare/blob/main/QuickShare/Docs/TransmitScan.png?raw=true)
+
+## 🫡致谢
+
+- [信鸽图标](https://www.iconfont.cn/collections/detail?spm=a313x.user_detail.i1.dc64b3430.b9ec3a81m06TMV&cid=22658)
