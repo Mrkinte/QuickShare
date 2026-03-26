@@ -82,8 +82,16 @@ namespace QuickShare.ViewModels.Pages
         {
             if (!FirewallHelper.IsApplicationAllowed())
             {
+                var result = FirewallHelper.GetProfileStatusDetails();
+                string forbiddenNet = string.Empty;
+                if (!result["Domain"])
+                    forbiddenNet += "，域网络";
+                if (!result["Private"])
+                    forbiddenNet += "，专用网络";
+                if (!result["Public"])
+                    forbiddenNet += "，公用网络";
                 FirewallDiagnoseStatus = "异常";
-                FirewallDiagnoseDetail = "防火墙配置异常，未放行，请手动放行或尝试自动修复。";
+                FirewallDiagnoseDetail = $"防火墙配置异常{forbiddenNet}未放行，请手动放行或尝试自动修复。";
                 FirewallDiagnoseColor = Brushes.Red;
                 AddFirewallRuleBtnVisiblity = Visibility.Visible;
                 return;

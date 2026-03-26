@@ -212,7 +212,7 @@ namespace QuickShare.Controllers
                     if (appConfigService.TransmitConfig.AutoSorting)
                     {
                         var sortingRules = sqliteService.ReadAllSortingRules();
-                        string extension = Path.GetExtension(fileName);
+                        string extension = Path.GetExtension(fileName).ToLower();
                         var rule = sortingRules.Find(rule => rule.Extension.Any(x => x == extension));
                         if (rule != null)
                         {

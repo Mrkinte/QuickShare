@@ -38,9 +38,6 @@ namespace QuickShare.ViewModels.Pages
         private ObservableCollection<string> _themeItems = new ObservableCollection<string> { "亮色", "暗色" };
 
         [ObservableProperty]
-        private string _selectedLanguage = string.Empty;
-
-        [ObservableProperty]
         private bool _autoCheckUpdate = appConfigService.UserConfig.AutoCheckUpdate;
 
         [ObservableProperty]
