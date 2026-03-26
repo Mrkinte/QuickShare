@@ -1,4 +1,10 @@
-﻿
+﻿![前端技术栈](https://img.shields.io/badge/%E5%89%8D%E7%AB%AF-Vue3_+_Vite-brightgreen?style=flat-square)
+![后端技术栈](https://img.shields.io/badge/%E5%90%8E%E7%AB%AF-Net10_+_AspNetCore-blue?style=flat-square)
+![开发工具](https://img.shields.io/badge/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7-WebStorm_+_Visual_Studio-blue?style=flat-square)
+![许可证](https://img.shields.io/github/license/antonkomarev/github-profile-views-counter.svg?style=flat-square)
+![下载统计](https://github-release-download-badges.marjin.workers.dev/Mrkinte/QuickShare?style=flat-square&color=orange)
+
+
 ## 📖项目简介
 
 一款局域网文件传输工具，仅需在 Windows 端部署该应用，即可通过浏览器在手机、平板等设备间快速上传与下载文件。无需在每台设备安装应用，实现“一次部署，多端即用”，让文件传输更轻量、更高效。
@@ -33,6 +39,6 @@
 
 ![TransmitScan](https://github.com/Mrkinte/QuickShare/blob/main/QuickShare/Docs/TransmitScan.png?raw=true)
 
-## 🫡致谢
+## ✨致谢
 
 - [信鸽图标](https://www.iconfont.cn/collections/detail?spm=a313x.user_detail.i1.dc64b3430.b9ec3a81m06TMV&cid=22658)
