@@ -28,12 +28,12 @@
 ## 📺视频演示
 - [Bilibili](https://www.bilibili.com/video/BV1GUFAz7ES8/)
 
-## [📷前端截图](https://github.com/Mrkinte/QuickShare/blob/main/QuickShare-WebUI/Docs/)
+## 📷[前端截图](https://github.com/Mrkinte/QuickShare/blob/main/QuickShare-WebUI/Docs/)
 
 ![Login](https://github.com/Mrkinte/QuickShare/blob/main/QuickShare-WebUI/Docs/Login.png?raw=true)
 
 
-## [📽️后端截图](https://github.com/Mrkinte/QuickShare/blob/main/QuickShare/Docs/)
+## 📽️[后端截图](https://github.com/Mrkinte/QuickShare/blob/main/QuickShare/Docs/)
 
 - 支持右键菜单->发送到QuickShare，快速分享文件。
 
