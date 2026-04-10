@@ -211,11 +211,6 @@
                 <DataGridTextColumn
                     MinWidth="100"
                     Binding="{Binding DownloadCount, Mode=OneWay}"
-                    Header="大小"
-                    IsReadOnly="True" />
-                <DataGridTextColumn
-                    MinWidth="100"
-                    Binding="{Binding DownloadCount, Mode=OneWay}"
                     Header="下载次数"
                     IsReadOnly="True" />
                 <DataGridTemplateColumn Width="Auto" Header="操作">
