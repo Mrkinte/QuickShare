@@ -13,7 +13,8 @@ namespace QuickShare.Services
         MessageBoxService messageBoxService,
         OnlineCountService onlineCountService,
         CertificateService certificateService,
-        DownloadTicketService downloadTicketService)
+        DownloadTicketService downloadTicketService,
+        RequestConfirmService requestConfirmService)
     {
         public bool IsRunning { get; private set; } = false;
         public event EventHandler<bool>? ServerStatusChanged;
@@ -47,6 +48,7 @@ namespace QuickShare.Services
             _webBuilder.Services.AddSingleton(appConfigService);
             _webBuilder.Services.AddSingleton(onlineCountService);
             _webBuilder.Services.AddSingleton(downloadTicketService);
+            _webBuilder.Services.AddSingleton(requestConfirmService);
 
             _webBuilder.Services.AddAuthentication("Cookie")
                 .AddCookie("Cookie", options =>

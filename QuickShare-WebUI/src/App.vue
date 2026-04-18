@@ -4,6 +4,7 @@ import { Sunny, Moon } from "@element-plus/icons-vue";
 import { onMounted } from "vue";
 import axios from "axios";
 import { v4 } from "uuid";
+import router from "./router";
 const isDark = useDark();
 const toggleDark = useToggle(isDark);
 
@@ -17,7 +18,7 @@ const getOrCreateVisitorId = () => {
 };
 
 onMounted(async () => {
-  const apiUrl = `/api/transmit/alive/${getOrCreateVisitorId()}`;
+  const apiUrl = `/api/common/alive/${getOrCreateVisitorId()}`;
   await axios.get(apiUrl);
 
   setInterval(async () => {
@@ -30,7 +31,7 @@ onMounted(async () => {
   <div>
     <el-container class="root-container">
       <el-header class="root-container-header">
-        <div class="title">
+        <div @click="router.push('/')" class="title">
           <img
             class="title-icon"
             width="32"

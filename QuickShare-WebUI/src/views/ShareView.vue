@@ -130,7 +130,7 @@ const getFileInfo = async (fileId: number = 0) => {
   formData.append("fileId", fileId.toString());
   formData.append("verificationCode", verificationCode.value);
   await axios
-    .post(`/api/share/fileInfo/${props.shareId}`, formData)
+    .post(`/api/share/file-info/${props.shareId}`, formData)
     .then((response) => {
       if (!response.headers["content-type"].includes("application/json")) {
         ElNotification.error({

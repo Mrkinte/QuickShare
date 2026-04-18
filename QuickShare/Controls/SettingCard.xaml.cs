@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using Wpf.Ui.Controls;
+﻿using Wpf.Ui.Controls;
 
 namespace QuickShare.Controls
 {

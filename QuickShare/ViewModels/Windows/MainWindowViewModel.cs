@@ -56,7 +56,17 @@ namespace QuickShare.ViewModels.Windows
                 Content = "诊断",
                 Icon = new SymbolIcon { Symbol = SymbolRegular.Bug24 },
                 TargetPageType = typeof(Views.Pages.DiagnosePage)
+            },
+
+            // TODO: 传输记录
+            /*
+            new NavigationViewItem()
+            {
+                Content = "记录",
+                Icon = new SymbolIcon { Symbol = SymbolRegular.History24 },
+                TargetPageType = typeof(Views.Pages.TransmitRecordsPage)
             }
+            */
         };
 
         [ObservableProperty]

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 import { ElMessageBox, ElNotification } from "element-plus";
@@ -7,15 +7,22 @@ import { ElMessageBox, ElNotification } from "element-plus";
 const router = useRouter();
 const logging = ref(false);
 const password = ref("");
+const enableGuest = ref(false);
 
-const handleForgetPassword = () => {
-  ElMessageBox.alert(
-    "如果忘记了登录密码，请在QuickShare客户端 -> 设置中修改。",
-    "忘记密码？",
-    {
-      confirmButtonText: "确认",
-    },
-  );
+const getUploadParams = async () => {
+  await axios.get(`/api/common/parameter`).then((response) => {
+    if (
+      !response.headers["content-type"].includes("application/json") ||
+      response.status !== 200
+    ) {
+      ElNotification.error({
+        title: "错误",
+        message: "获取上传参数失败。",
+      });
+      return;
+    }
+    enableGuest.value = response.data.enableGuest;
+  });
 };
 
 const handleLogin = async () => {
@@ -25,6 +32,7 @@ const handleLogin = async () => {
       message: "密码不能为空，请重新输入。",
       type: "warning",
     });
+    return;
   }
 
   const formData = new FormData();
@@ -50,6 +58,24 @@ const handleLogin = async () => {
       logging.value = false;
     });
 };
+
+const handleGuestLogin = () => {
+  router.push("/guest");
+};
+
+const handleForgetPassword = () => {
+  ElMessageBox.alert(
+    "如果忘记了登录密码，请在QuickShare客户端 -> 设置中修改。",
+    "忘记密码？",
+    {
+      confirmButtonText: "确认",
+    },
+  );
+};
+
+onMounted(() => {
+  getUploadParams();
+});
 </script>
 
 <template>
@@ -84,6 +110,13 @@ const handleLogin = async () => {
             :loading="logging"
             @click="handleLogin"
             >登录系统</el-button
+          >
+          <el-button
+            v-if="enableGuest"
+            class="login-button"
+            color="darkorange"
+            @click="handleGuestLogin"
+            >访客上传</el-button
           >
           <el-button
             style="align-self: center"
@@ -149,6 +182,7 @@ const handleLogin = async () => {
 
 .login-button {
   height: 48px;
+  margin-left: 0;
   font-size: 1rem;
   border-radius: 10px;
 }
@@ -163,6 +197,10 @@ const handleLogin = async () => {
     height: 100%;
     padding: 10px 5px;
     flex-direction: column;
+  }
+
+  .login-form {
+    width: 100%;
   }
 }
 </style>

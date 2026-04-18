@@ -100,6 +100,33 @@
             <ui:NavigationView.ContentOverlay>
                 <Grid>
                     <ui:SnackbarPresenter x:Name="SnackbarPresenter" />
+                    <ui:DynamicScrollViewer
+                        Margin="0,24,12,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top">
+                        <ItemsControl x:Name="RequestsControl" Margin="0,0,12,0">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <control:RequestConfirmCard
+                                        Visibility="{Binding Visibility}"
+                                        Title="{Binding Title}"
+                                        Margin="0,0,0,8"
+                                        AgreeButtonText="{Binding AgreeButtonText}"
+                                        Description="{Binding Description}"
+                                        RefuseButtonText="{Binding RefuseButtonText}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Agreed">
+                                                <i:InvokeCommandAction Command="{Binding ElementName=RequestsControl, Path=DataContext.AgreeRequestCommand}" CommandParameter="{Binding}" />
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="Refused">
+                                                <i:InvokeCommandAction Command="{Binding ElementName=RequestsControl, Path=DataContext.RefuseRequestCommand}" CommandParameter="{Binding}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </control:RequestConfirmCard>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ui:DynamicScrollViewer>
                 </Grid>
             </ui:NavigationView.ContentOverlay>
         </ui:NavigationView>

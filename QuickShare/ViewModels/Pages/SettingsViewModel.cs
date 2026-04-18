@@ -79,6 +79,15 @@ namespace QuickShare.ViewModels.Pages
         private string _password = appConfigService.TransmitConfig.Password;
 
         [ObservableProperty]
+        private bool _enableGuest = appConfigService.TransmitConfig.EnableGuest;
+
+        [ObservableProperty]
+        private bool _requestTimeoutConfirmBtnEnabled = false;
+
+        [ObservableProperty]
+        private int _requestTimeout = appConfigService.TransmitConfig.RequestTimeout;
+
+        [ObservableProperty]
         private bool _maxFileSizeConfirmBtnEnabled = false;
 
         [ObservableProperty]
@@ -180,6 +189,16 @@ namespace QuickShare.ViewModels.Pages
         {
             try
             {
+                if (WebPort < 1 || WebPort > 65535)
+                {
+                    snackbarService.Show(
+                        "提示",
+                        "端口号无效，仅支持1-65535之间的整数。",
+                        ControlAppearance.Caution,
+                        new SymbolIcon(SymbolRegular.Warning24),
+                        TimeSpan.FromSeconds(5));
+                    return;
+                }
                 if (NetworkHelper.IsPortInUse(WebPort))
                 {
                     _ = messageBoxService.ShowMessage("错误", $"端口{WebPort}被占用。");
@@ -190,7 +209,7 @@ namespace QuickShare.ViewModels.Pages
                 appConfigService.SaveConfig();
                 snackbarService.Show(
                     "提示",
-                    "端口修改成功。",
+                    "端口修改成功，重启服务器生效。",
                     ControlAppearance.Success,
                     new SymbolIcon(SymbolRegular.CheckmarkCircle24),
                     TimeSpan.FromSeconds(5));
@@ -272,6 +291,40 @@ namespace QuickShare.ViewModels.Pages
             }
             PasswordConfirmBtnEnabled = false;
             appConfigService.TransmitConfig.Password = Password;
+            appConfigService.SaveConfig();
+        }
+
+        [RelayCommand]
+        private void OnEnableGuest()
+        {
+            appConfigService.TransmitConfig.EnableGuest = EnableGuest;
+            appConfigService.SaveConfig();
+        }
+
+        [RelayCommand]
+        private void OnRequestTimeoutChanged()
+        {
+            if (RequestTimeoutConfirmBtnEnabled == false)
+            {
+                RequestTimeoutConfirmBtnEnabled = true;
+            }
+        }
+
+        [RelayCommand]
+        private void OnModifyRequestTimeout()
+        {
+            if (RequestTimeout < 30 || RequestTimeout > 300)
+            {
+                snackbarService.Show(
+                    "提示",
+                    "请求超时时间无效，仅支持30-300秒。",
+                    ControlAppearance.Caution,
+                    new SymbolIcon(SymbolRegular.Warning24),
+                    TimeSpan.FromSeconds(5));
+                return;
+            }
+            RequestTimeoutConfirmBtnEnabled = false;
+            appConfigService.TransmitConfig.RequestTimeout = RequestTimeout;
             appConfigService.SaveConfig();
         }
 

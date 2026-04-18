@@ -1,0 +1,43 @@
+﻿<ui:CardControl
+    x:Class="QuickShare.Controls.RequestConfirmCard"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:QuickShare.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Width="600"
+    Background="Cadetblue"
+    CornerRadius="8"
+    Icon="{ui:SymbolIcon Symbol=Laptop24}"
+    Style="{StaticResource {x:Type ui:CardControl}}"
+    mc:Ignorable="d">
+    <ui:CardControl.Header>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ui:TextBlock
+                Grid.Row="0"
+                Margin="0,0,0,12"
+                FontSize="16"
+                FontTypography="Body"
+                Text="{Binding Title, RelativeSource={RelativeSource AncestorType=local:RequestConfirmCard}}"
+                TextTrimming="CharacterEllipsis" />
+            <ui:TextBlock
+                Grid.Row="1"
+                Height="20"
+                FontSize="12"
+                Text="{Binding Description, RelativeSource={RelativeSource AncestorType=local:RequestConfirmCard}}"
+                TextTrimming="CharacterEllipsis" />
+        </Grid>
+    </ui:CardControl.Header>
+    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+        <ui:Button Click="Agree_Button_Click" Content="{Binding AgreeButtonText, RelativeSource={RelativeSource AncestorType=local:RequestConfirmCard}}" />
+        <ui:Button
+            Margin="12,0,0,0"
+            Click="Refuse_Button_Click"
+            Content="{Binding RefuseButtonText, RelativeSource={RelativeSource AncestorType=local:RequestConfirmCard}}" />
+    </StackPanel>
+</ui:CardControl>

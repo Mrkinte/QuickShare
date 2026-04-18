@@ -143,7 +143,7 @@ namespace QuickShare.Controllers
         /// <param name="fileId"></param>
         /// <param name="verificationCode"></param>
         /// <returns></returns>
-        [HttpPost("fileInfo/{shareId}")]
+        [HttpPost("file-info/{shareId}")]
         public ActionResult GetFileInfo(string shareId, [FromForm] long fileId, [FromForm] string? verificationCode)
         {
             ShareRecordModel shareRecord;

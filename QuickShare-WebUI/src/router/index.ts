@@ -6,6 +6,7 @@ import ShareView from "../views/ShareView.vue";
 import VerifyView from "../views/VerifyView.vue";
 import InvalidShareView from "../views/InvalidShareView.vue";
 import NotFoundView from "../views/NotFoundView.vue";
+import GuestView from "../views/GuestView.vue";
 
 const routes = [
   {
@@ -24,6 +25,11 @@ const routes = [
         }
       });
     },
+  },
+  {
+    path: "/guest",
+    name: "Guest",
+    component: GuestView,
   },
   {
     path: "/:pathMatch(.*)*",

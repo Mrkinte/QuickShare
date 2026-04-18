@@ -38,13 +38,13 @@
                     Text="通用" />
                 <sc:SettingCard
                     Title="开机自启动"
-                    Description="开机自动运行软件和文件服务器"
+                    Description="开机自动运行软件和文件服务器。"
                     Icon="{ui:SymbolIcon Symbol=Laptop24}">
                     <ui:ToggleSwitch Command="{Binding AutoStartupCommand}" IsChecked="{Binding AutoStartup, Mode=TwoWay}" />
                 </sc:SettingCard>
                 <sc:SettingCard
                     Title="主题"
-                    Description="调整应用的外观"
+                    Description="调整应用的外观。"
                     Icon="{ui:SymbolIcon Symbol=PaintBrush24}">
                     <ComboBox
                         MinWidth="200"
@@ -59,13 +59,13 @@
                 </sc:SettingCard>
                 <sc:SettingCard
                     Title="自动检查更新"
-                    Description="软件运行时自动检查是否存在新版本"
+                    Description="软件运行时自动检查是否存在新版本。"
                     Icon="{ui:SymbolIcon Symbol=GlobeSurface24}">
                     <ui:ToggleSwitch Command="{Binding AutoCheckUpdateCommand}" IsChecked="{Binding AutoCheckUpdate, Mode=TwoWay}" />
                 </sc:SettingCard>
                 <sc:SettingCard
                     Title="禁用关闭提示"
-                    Description="关闭窗口时弹窗提示用户选择是最小化还是直接退出"
+                    Description="关闭窗口时弹窗提示用户选择是最小化还是直接退出。"
                     Icon="{ui:SymbolIcon Symbol=ClosedCaptionOff24}">
                     <ui:ToggleSwitch Command="{Binding DisableCloseMessageCommand}" IsChecked="{Binding DisableCloseMessage, Mode=TwoWay}" />
                 </sc:SettingCard>
@@ -86,7 +86,7 @@
                     Text="网络" />
                 <sc:SettingCard
                     Title="服务器"
-                    Description="运行、停止文件服务器"
+                    Description="运行、停止文件服务器。"
                     Icon="{ui:SymbolIcon Symbol=Server24}">
                     <ui:Card
                         Width="100"
@@ -113,7 +113,7 @@
                 </sc:SettingCard>
                 <sc:SettingCard
                     Title="端口"
-                    Description="服务器访问端口"
+                    Description="服务器访问端口。"
                     Icon="{ui:SymbolIcon Symbol=CalendarShield24}">
                     <StackPanel Orientation="Horizontal">
                         <ui:Button
@@ -143,7 +143,7 @@
                 </sc:SettingCard>
                 <sc:SettingCard
                     Title="默认网卡"
-                    Description="生成链接时默认调用的网卡"
+                    Description="生成链接时默认调用的网卡。"
                     Icon="{ui:SymbolIcon Symbol=NetworkAdapter16}">
                     <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                         <ui:Button
@@ -183,7 +183,7 @@
                     Text="传输" />
                 <sc:SettingCard
                     Title="登录密码"
-                    Description="打开 上传/下载 页面时需要输入的登录密码"
+                    Description="打开 上传/下载 页面时需要输入的登录密码。"
                     Icon="{ui:SymbolIcon Symbol=Password24}">
                     <StackPanel Orientation="Horizontal">
                         <ui:Button
@@ -210,8 +210,45 @@
                     </StackPanel>
                 </sc:SettingCard>
                 <sc:SettingCard
+                    Title="访客上传"
+                    Description="允许用户在未登录的情况下上传文件，Windows端弹窗提示是否同意。"
+                    Icon="{ui:SymbolIcon Symbol=GuestAdd24}">
+                    <ui:ToggleSwitch Command="{Binding EnableGuestCommand}" IsChecked="{Binding EnableGuest, Mode=TwoWay}" />
+                </sc:SettingCard>
+                <sc:SettingCard
+                    Title="请求超时"
+                    Description="响应上传请求的超时时间，超过该时间未处理则视为拒绝，单位为秒。"
+                    Icon="{ui:SymbolIcon Symbol=Timer24}"
+                    IsEnabled="{Binding EnableGuest}">
+                    <StackPanel Orientation="Horizontal">
+                        <ui:Button
+                            Padding="8"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Command="{Binding ModifyRequestTimeoutCommand}"
+                            Icon="{ui:SymbolIcon Symbol=Checkmark24}"
+                            Visibility="{Binding RequestTimeoutConfirmBtnEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <ui:NumberBox
+                            MinWidth="100"
+                            Margin="4,0,0,0"
+                            ClearButtonEnabled="False"
+                            Maximum="65535"
+                            Minimum="1"
+                            SpinButtonPlacementMode="Hidden"
+                            Text="{Binding RequestTimeout, Mode=TwoWay}"
+                            TextAlignment="Center"
+                            Value="{Binding RequestTimeout, Mode=TwoWay}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="TextChanged">
+                                    <i:InvokeCommandAction Command="{Binding RequestTimeoutChangedCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ui:NumberBox>
+                    </StackPanel>
+                </sc:SettingCard>
+                <sc:SettingCard
                     Title="文件上传限制"
-                    Description="最大允许上传的文件总大小 (MB)"
+                    Description="单次上传，最大允许上传文件的总大小，单位为MB。"
                     Icon="{ui:SymbolIcon Symbol=Database24}">
                     <StackPanel Orientation="Horizontal">
                         <ui:Button
@@ -267,7 +304,7 @@
                     Text="其他" />
                 <sc:SettingCard
                     Title="查看日志"
-                    Description="查看软件运行日志"
+                    Description="跳转至日志存放目录，方便查看软件运行日志。"
                     Icon="{ui:SymbolIcon Symbol=DocumentTextExtract24}">
                     <ui:Button Command="{Binding OpenLogFolderCommand}" Content="打开" />
                 </sc:SettingCard>
@@ -293,7 +330,7 @@
                                 Grid.Row="1"
                                 FontSize="12"
                                 Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
-                                Text="恢复所有参数到默认状态并重启软件" />
+                                Text="恢复所有参数到默认状态并重启软件。" />
                         </Grid>
                     </ui:CardControl.Header>
                     <ui:Button
@@ -335,7 +372,7 @@
                 </sc:SettingCard>
                 <sc:SettingCard
                     Title="问题反馈"
-                    Description="在Github中反馈遇到的Bug"
+                    Description="在Github中反馈遇到的Bug。"
                     Icon="{ui:SymbolIcon Symbol=Bug24}">
                     <ui:HyperlinkButton
                         Appearance="Primary"

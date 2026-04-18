@@ -20,6 +20,8 @@
 	<ItemGroup>
 		<None Remove="Assets\app-icon-512.png" />
 		<None Remove="Assets\repaire-firewall-rule.bat" />
+		<None Remove="Assets\Sounds\Notification.mp3" />
+		<None Remove="Assets\Sounds\Notification.wav" />
 		<None Remove="Assets\tray-icon.ico" />
 		<None Remove="favicon.ico" />
 	</ItemGroup>
@@ -51,6 +53,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Assets\Sound\**" />
+	  <EmbeddedResource Remove="Assets\Sound\**" />
+	  <None Remove="Assets\Sound\**" />
+	  <Page Remove="Assets\Sound\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<COMReference Include="IWshRuntimeLibrary">
 			<Guid>F935DC20-1CF0-11D0-ADB9-00C04FD58A0B</Guid>
 			<VersionMajor>1</VersionMajor>
@@ -61,6 +70,12 @@
 
 	<ItemGroup>
 	  <Content Include="favicon.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Assets\Sounds\Notification.wav">
+	    <CopyToOutputDirectory></CopyToOutputDirectory>
+	  </EmbeddedResource>
 	</ItemGroup>
 
 	<ItemGroup>

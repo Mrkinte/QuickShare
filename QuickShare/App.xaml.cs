@@ -69,6 +69,7 @@ namespace QuickShare
                 services.AddSingleton<CertificateService>();
                 services.AddSingleton<OnlineCountService>();
                 services.AddSingleton<DownloadTicketService>();
+                services.AddSingleton<RequestConfirmService>();
 
                 // Windows and Pages
                 services.AddSingleton<INavigationWindow, MainWindow>();
@@ -88,6 +89,11 @@ namespace QuickShare
                 services.AddSingleton<SettingsViewModel>();
                 services.AddSingleton<AutomaticSortingEditPage>();
                 services.AddSingleton<AutomaticSortingEditViewModel>();
+                services.AddSingleton<TextMessagePage>();
+                services.AddSingleton<TextMessageViewModel>();
+                // TODO: 传输记录
+                // services.AddSingleton<TransmitRecordsPage>();
+                // services.AddSingleton<TransmitRecordsViewModel>();
             })
             .ConfigureLogging(logging =>
             {

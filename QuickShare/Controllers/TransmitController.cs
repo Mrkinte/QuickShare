@@ -15,29 +15,13 @@ namespace QuickShare.Controllers
     [ApiController]
     [Route("api/[controller]")]
     public class TransmitController(
+        ILogger logger,
         SqliteService sqliteService,
         AppConfigService appConfigService,
-        OnlineCountService onlineCountService,
-        ILogger logger) : ControllerBase
+        RequestConfirmService requestConfirmService) : ControllerBase
     {
         private readonly List<FileProps> _files = new();
         private readonly object _filesLock = new();
-
-        /// <summary>
-        /// 连接心跳，统计在线数。
-        /// </summary>
-        /// <param name="uuid"></param>
-        /// <returns></returns>
-        [AllowAnonymous]
-        [HttpGet("alive/{uuid}")]
-        public async Task<ActionResult> Alive(string uuid)
-        {
-            var actualIp = GetRemoteIp();
-            if (string.IsNullOrWhiteSpace(uuid))
-                return BadRequest("Uuid is required");
-            onlineCountService.UpdateVisitorActivity(string.IsNullOrEmpty(actualIp) ? uuid : actualIp);
-            return Ok(new { status = "alive" });
-        }
 
         /// <summary>
         /// 请求登录。
@@ -79,20 +63,6 @@ namespace QuickShare.Controllers
         public async Task<ActionResult> LoggedIn()
         {
             return Ok(new { isAuthenticated = User.Identity?.IsAuthenticated ?? false });
-        }
-
-        /// <summary>
-        /// 获取上传参数。
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("parameter")]
-        public IActionResult GetParameters()
-        {
-            return Ok(new
-            {
-                maxFileSize = appConfigService.TransmitConfig.MaxFileSize,
-                autoSorting = appConfigService.TransmitConfig.AutoSorting
-            });
         }
 
         /// <summary>
@@ -277,7 +247,7 @@ namespace QuickShare.Controllers
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        [HttpPost("createFolder")]
+        [HttpPost("create-folder")]
         public ActionResult CreateFolder([FromForm] string path)
         {
             try
@@ -308,7 +278,7 @@ namespace QuickShare.Controllers
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        [HttpPost("fileInfo")]
+        [HttpPost("file-info")]
         public ActionResult GetFileInfo([FromForm] string path)
         {
             try
@@ -386,6 +356,13 @@ namespace QuickShare.Controllers
             {
                 return StatusCode(500, new { error = $"File download failed: {ex.Message}" });
             }
+        }
+
+        [HttpPost("send-message")]
+        public ActionResult SendMessage([FromForm] string message)
+        {
+            requestConfirmService.CreateMessageRequest("管理员", message);
+            return Ok();
         }
 
         #region Private Methods

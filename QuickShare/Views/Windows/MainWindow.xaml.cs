@@ -3,7 +3,6 @@ using QuickShare.Services;
 using QuickShare.ViewModels.Windows;
 using QuickShare.Views.Pages;
 using System.Runtime.InteropServices;
-using System.Windows;
 using System.Windows.Interop;
 using Wpf.Ui;
 using Wpf.Ui.Abstractions;
@@ -32,6 +31,7 @@ namespace QuickShare.Views.Windows
             AppConfigService appConfigService,
             INavigationService navigationService,
             IContentDialogService contentDialogService,
+            RequestConfirmService requestConfirmService,
             INavigationViewPageProvider navigationViewPageProvider
         )
         {
@@ -46,6 +46,7 @@ namespace QuickShare.Views.Windows
             _appConfigService = appConfigService;
             _contentDialogService = contentDialogService;
             _contentDialogService.SetDialogHost(RootContentDialog);
+            requestConfirmService.SetRequestsControl(RequestsControl);
             navigationService.SetNavigationControl(RootNavigation);
         }
 

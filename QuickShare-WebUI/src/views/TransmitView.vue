@@ -58,10 +58,7 @@ const getFiles = async (path: string) => {
   await axios
     .post(`/api/transmit/files`, formData)
     .then((response) => {
-      if (
-        !response.headers["content-type"].includes("application/json") ||
-        response.status !== 200
-      ) {
+      if (!response.headers["content-type"].includes("application/json")) {
         ElNotification.error({ title: "错误", message: "获取文件列表失败。" });
         return [];
       }
@@ -77,7 +74,7 @@ const createFolder = async (path: string) => {
   const formData = new FormData();
   formData.append("path", path);
   await axios
-    .post(`/api/transmit/createFolder`, formData)
+    .post(`/api/transmit/create-folder`, formData)
     .then((response) => {
       if (response.data.message === "Successful") {
         ElNotification.success({ title: "成功", message: "新建文件夹成功。" });
@@ -120,12 +117,9 @@ const getFileInfo = async (path: string) => {
   const formData = new FormData();
   formData.append("path", path);
   await axios
-    .post(`/api/transmit/fileInfo`, formData)
+    .post(`/api/transmit/file-info`, formData)
     .then((response) => {
-      if (
-        !response.headers["content-type"].includes("application/json") ||
-        response.status !== 200
-      ) {
+      if (!response.headers["content-type"].includes("application/json")) {
         ElNotification.error({
           title: "错误",
           message: "获取文件详细信息失败。",
@@ -144,20 +138,25 @@ const getFileInfo = async (path: string) => {
 };
 
 const getUploadParams = async () => {
-  await axios.get(`/api/transmit/parameter`).then((response) => {
-    if (
-      !response.headers["content-type"].includes("application/json") ||
-      response.status !== 200
-    ) {
+  await axios
+    .get(`/api/common/parameter`)
+    .then((response) => {
+      if (!response.headers["content-type"].includes("application/json")) {
+        ElNotification.error({
+          title: "错误",
+          message: "获取上传参数失败。",
+        });
+        return;
+      }
+      uploadMaxSize.value = response.data.maxFileSize * 1024 * 1024;
+      autoSorting.value = response.data.autoSorting;
+    })
+    .catch(() => {
       ElNotification.error({
         title: "错误",
         message: "获取上传参数失败。",
       });
-      return;
-    }
-    uploadMaxSize.value = response.data.maxFileSize * 1024 * 1024;
-    autoSorting.value = response.data.autoSorting;
-  });
+    });
 };
 
 const setAutoSorting = async () => {
@@ -272,6 +271,50 @@ const handleCreateFolder = async () => {
       createFolder(normalizedPath + folderName);
     })
     .catch(() => {});
+};
+
+const handleSendMessage = async () => {
+  try {
+    const { value: message } = await ElMessageBox.prompt(
+      "请输入需要发送给管理员的文本内容。",
+      "发送文本",
+      {
+        confirmButtonText: "发送",
+        cancelButtonText: "取消",
+        inputType: "textarea",
+        inputPlaceholder: "在此输入文本内容...",
+        inputValidator: (value) => {
+          if (!value || value.trim() === "") {
+            return "文本内容不能为空";
+          }
+          if (value.length > 10000) {
+            return "文本内容不能超过10000个字符";
+          }
+          return true;
+        },
+      },
+    );
+
+    const formData = new FormData();
+    formData.append("message", message.trim());
+
+    await axios
+      .post(`/api/transmit/send-message`, formData)
+      .then(() => {
+        ElNotification.success({
+          title: "成功",
+          message: "文本已成功发送。",
+        });
+      })
+      .catch(() => {
+        ElNotification.error({
+          title: "错误",
+          message: "文本发送失败。",
+        });
+      });
+  } catch (error) {
+    // 用户取消操作，不需要处理
+  }
 };
 
 const handleViewMethod = (method: boolean) => {
@@ -448,16 +491,26 @@ onMounted(() => {
             </div></el-button
           >
         </div>
-        <el-tooltip
-          content="上传文件时，根据文件类型的不同保存到对应的文件夹中。"
-          placement="top"
-        >
-          <el-switch
-            v-model="autoSorting"
-            inactive-text="自动分类"
-            @change="setAutoSorting"
-          />
-        </el-tooltip>
+        <div style="display: flex; gap: 12px">
+          <el-button @click="handleSendMessage">
+            <div class="menu-bar-button">
+              <el-icon size="20">
+                <FluentCommentText24Filled />
+              </el-icon>
+              发送文本
+            </div></el-button
+          >
+          <el-tooltip
+            content="上传文件时，根据文件类型的不同保存到对应的文件夹中。"
+            placement="top"
+          >
+            <el-switch
+              v-model="autoSorting"
+              inactive-text="自动分类"
+              @change="setAutoSorting"
+            />
+          </el-tooltip>
+        </div>
       </div>
       <!--Right-->
       <div class="menu-bar-right">
@@ -593,7 +646,7 @@ onMounted(() => {
         点击 <em>上传文件</em> or 拖拽 到此处上传文件
       </div>
       <div class="el-upload__tip">
-        支持批量上传，最大支持 {{ formatFileSize(uploadMaxSize) }}
+        支持批量上传，单个文件最大支持 {{ formatFileSize(uploadMaxSize) }}
       </div>
     </el-upload>
     <FileInfoView

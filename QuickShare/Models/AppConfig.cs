@@ -17,6 +17,7 @@ namespace QuickShare.Models
         public bool AutoCheckUpdate { get; set; } = true;
         public bool ExitDirectly { get; set; } = true;
         public bool DisableCloseMessage { get; set; } = false;
+        public bool EnableNotificationSound { get; set; } = true;
     }
 
     public class NetworkConfig
@@ -29,6 +30,8 @@ namespace QuickShare.Models
     public class TransmitConfig
     {
         public string Password { get; set; } = "quickshare";
+        public bool EnableGuest { get; set; } = true;
+        public int RequestTimeout { get; set; } = 60;    // 响应上传请求的超时时间，超过该时间未处理则视为拒绝，单位为秒。
         public int MaxFileSize { get; set; } = 4096;    // 4GB
         public string SavePath { get; set; } = Path.Combine(AppContext.BaseDirectory, "uploads");
         public bool AutoSorting { get; set; } = false;

@@ -56,7 +56,7 @@ namespace QuickShare.Services
         {
             try
             {
-                // TODO
+                // TODO: 
                 var cert = new X509Certificate2(certPath, certPassword);
                 return cert.NotBefore <= DateTime.Now &&
                        cert.NotAfter >= DateTime.Now.AddDays(MinValidityDays) &&
