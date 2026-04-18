@@ -17,9 +17,23 @@
 
 - 所有内容经过Https加密传输。
 
+## 🚀开发计划
+
+- [x] 基础的文件上传和分享功能。
+
+- [x] 访客上传：允许访客在未登录的情况下上传文件，Windows端弹窗提示用户是否接收。
+
+- [ ] 文本分享：支持用户分享文本内容，前后端均支持内容导出到硬盘持久化保存。
+
+- [ ] 上传和下载历史记录：记录每次上传和下载的文件信息，方便用户查看和管理。
+
+- [ ] 更多功能敬请期待...
+
 ## ⚒️自定义QuickShare前端界面
 
 - [QuickShare-WebUI](https://github.com/Mrkinte/QuickShare/blob/main/QuickShare-WebUI/README.md)
+
+- 我使用的开发工具：WebStorm
 
 - 自定义前端界面，请将编译后的前端代码保存到QuickShare项目的``Assets/wwwroot/``目录下，VS编译时会自动将``wwwroot``目录复制到构建目录（``bin/Debug/net10.0-windows/``）中。
 
