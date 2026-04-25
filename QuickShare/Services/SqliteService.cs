@@ -27,15 +27,6 @@ namespace QuickShare.Services
                 throw new Exception("Failed to open SQLite database.", ex);
             }
 
-            using var createSortingRuleTableCmd = new SqliteCommand(@"
-                CREATE TABLE IF NOT EXISTS SortingRules (
-                    Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    SortingName TEXT NOT NULL,
-                    SavePath TEXT NOT NULL,
-                    Extension TEXT NOT NULL
-                )", _connection);
-            createSortingRuleTableCmd.ExecuteNonQuery();
-
             using var createMainTableCmd = new SqliteCommand(@"
                 CREATE TABLE IF NOT EXISTS ShareRecords (
                     ShareId INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -58,6 +49,30 @@ namespace QuickShare.Services
                     FOREIGN KEY(ShareId) REFERENCES ShareRecords(ShareId) ON DELETE CASCADE
                 )", _connection);
             createFileRecordsTableCmd.ExecuteNonQuery();
+
+            using var createSortingRuleTableCmd = new SqliteCommand(@"
+                CREATE TABLE IF NOT EXISTS SortingRules (
+                    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    SortingName TEXT NOT NULL,
+                    SavePath TEXT NOT NULL,
+                    Extension TEXT NOT NULL
+                )", _connection);
+            createSortingRuleTableCmd.ExecuteNonQuery();
+
+            // TODO: 考虑是否需要增加一个表来记录文件传输的日志记录，包括上传和下载的记录，记录操作人、时间、类型（上传/下载）、状态（成功/失败）等信息，方便后续查看和统计。
+            /*
+            using var createTransmitRecordsTableCmd = new SqliteCommand(@"
+                CREATE TABLE IF NOT EXISTS TransmitRecords (
+                    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    Operator TEXT NOT NULL,
+                    Time TEXT NOT NULL,
+                    Type INTEGER NOT NULL DEFAULT 0,
+                    Direction INTEGER NOT NULL DEFAULT 0,
+                    Description TEXT NOT NULL ,
+                    Status INTEGER NOT NULL DEFAULT 0
+                )", _connection);
+            createTransmitRecordsTableCmd.ExecuteNonQuery();
+            */
         }
 
         /// <summary>
@@ -148,6 +163,17 @@ namespace QuickShare.Services
             using var deleteCmd = new SqliteCommand(
                 "DELETE FROM ShareRecords WHERE ShareId = @ShareId", _connection);
             deleteCmd.Parameters.AddWithValue("@ShareId", shareId);
+            return deleteCmd.ExecuteNonQuery();
+        }
+
+        /// <summary>
+        /// 清空所有分享记录。
+        /// </summary>
+        /// <param name="shareId"></param>
+        /// <returns></returns>
+        public int ClearShareRecords()
+        {
+            using var deleteCmd = new SqliteCommand("DELETE FROM ShareRecords", _connection);
             return deleteCmd.ExecuteNonQuery();
         }
 

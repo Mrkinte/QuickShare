@@ -102,6 +102,15 @@ namespace QuickShare.ViewModels.Pages
         }
 
         [RelayCommand]
+        private async Task OnClearShareRecordsAsync()
+        {
+            App.SetBusy(true);
+            await Task.Run(() => sqliteService.ClearShareRecords());
+            ShareRecords.Clear();
+            App.SetBusy(false);
+        }
+
+        [RelayCommand]
         private void OnUpdateShareRecords()
         {
             ShareRecords = new ObservableCollection<ShareRecordModel>(sqliteService.ReadAllShareRecords());

@@ -51,15 +51,24 @@
                 </ui:Button>
             </StackPanel>
 
-            <ui:Button
+            <StackPanel
                 Grid.Column="1"
                 HorizontalAlignment="Right"
-                Command="{Binding UpdateShareRecordsCommand}"
-                Content="刷新分享列表">
-                <ui:Button.Icon>
-                    <ui:SymbolIcon Foreground="LightSeaGreen" Symbol="ArrowSync24" />
-                </ui:Button.Icon>
-            </ui:Button>
+                Orientation="Horizontal">
+                <ui:Button
+                    Margin="0,0,12,0"
+                    Command="{Binding ClearShareRecordsCommand}"
+                    Content="清空分享">
+                    <ui:Button.Icon>
+                        <ui:SymbolIcon Foreground="Red" Symbol="Broom24" />
+                    </ui:Button.Icon>
+                </ui:Button>
+                <ui:Button Command="{Binding UpdateShareRecordsCommand}" Content="刷新列表">
+                    <ui:Button.Icon>
+                        <ui:SymbolIcon Foreground="LightSeaGreen" Symbol="ArrowSync24" />
+                    </ui:Button.Icon>
+                </ui:Button>
+            </StackPanel>
         </Grid>
         <ui:DataGrid
             Grid.Row="1"
