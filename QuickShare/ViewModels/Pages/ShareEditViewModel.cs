@@ -276,7 +276,8 @@ namespace QuickShare.ViewModels.Pages
         [RelayCommand]
         private async Task OnDelete(FileRecordModel fileRecord)
         {
-            if (FileRecords.Count == 1)
+            // 根目录不允许删除。
+            if (FileRecords.Count == 1 && Folders.Count == 1)
             {
                 snackbarService.Show(
                     "提示",
